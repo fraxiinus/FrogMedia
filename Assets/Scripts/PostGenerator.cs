@@ -30,19 +30,19 @@ public class PostGenerator : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
-            SpawnPost(0, "frog name", "I spawned this post through a script!");
+            SpawnPost(0, "frog name", loader.GetRandomPost(1).Content);
         }
         if (Input.GetKeyUp(KeyCode.Alpha2))
         {
-            SpawnPost(1, "frog name", "I spawned this post through a script!");
+            SpawnPost(1, "frog name", loader.GetRandomPost(2).Content);
         }
         if (Input.GetKeyUp(KeyCode.Alpha3))
         {
-            SpawnPost(2, "frog name", "I spawned this post through a script!");
+            SpawnPost(2, "frog name", loader.GetRandomPost(3).Content);
         }
         if (Input.GetKeyUp(KeyCode.Alpha4))
         {
-            SpawnPost(3, "frog name", "I spawned this post through a script!");
+            SpawnPost(3, "frog name", loader.GetRandomPost(4).Content);
         }
     }
 

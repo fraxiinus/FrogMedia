@@ -1,0 +1,4 @@
+froggers	frog
+Ssssssssss	snake
+croak	frog
+nake	snake
