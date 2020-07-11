@@ -1,7 +1,7 @@
 
 public class PostText
 {
-    public string Content { get; set; }
+    public string Text { get; set; }
 
     public float FAKE { get; set; }
 

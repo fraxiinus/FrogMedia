@@ -111,7 +111,7 @@ public class TextParser : MonoBehaviour
             }
             int fakeScore = 0;
             Int32.TryParse(parts[1].Trim(), out fakeScore);
-            Posts.Add(new PostText { Content = parts[0].ToUpper(), FAKE = fakeScore, Category = category } );
+            Posts.Add(new PostText { Text = parts[0].ToUpper(), FAKE = fakeScore, Category = category } );
         }
     }
 }
