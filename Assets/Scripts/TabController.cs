@@ -35,19 +35,19 @@ public class TabController : MonoBehaviour
             switch (index)
             {
                 case "1":
-                    TabPage1.SetActive(true);
+                    ShowPage(TabPage1);
                     break;
                 case "2":
-                    TabPage2.SetActive(true);
+                    ShowPage(TabPage2);
                     break;
                 case "3":
-                    TabPage3.SetActive(true);
+                    ShowPage(TabPage3);
                     break;
                 case "4":
-                    TabPage4.SetActive(true);
+                    ShowPage(TabPage4);
                     break;
                 case "5":
-                    TabPage5.SetActive(true);
+                    ShowPage(TabPage5);
                     break;
             }
 
@@ -57,10 +57,15 @@ public class TabController : MonoBehaviour
 
     void HideAllPages()
     {
-        TabPage1.SetActive(false);
-        TabPage2.SetActive(false);
-        TabPage3.SetActive(false);
-        TabPage4.SetActive(false);
-        TabPage5.SetActive(false);
+        TabPage1.transform.localScale = new Vector3(0, 0, 0);
+        TabPage2.transform.localScale = new Vector3(0, 0, 0);
+        TabPage3.transform.localScale = new Vector3(0, 0, 0);
+        TabPage4.transform.localScale = new Vector3(0, 0, 0);
+        TabPage5.transform.localScale = new Vector3(0, 0, 0);
+    }
+
+    static void ShowPage(GameObject obj)
+    {
+        obj.transform.localScale = new Vector3(1, 1, 1);
     }
 }
