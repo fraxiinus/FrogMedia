@@ -272,7 +272,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 5
+  m_PixelsPerUnitMultiplier: 6
 --- !u!222 &70196362
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 4
-  m_AspectRatio: 1
+  m_AspectRatio: 1.33
 --- !u!1 &85200475
 GameObject:
   m_ObjectHideFlags: 0
