@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 public class PostGenerator : MonoBehaviour
 {
@@ -14,9 +15,9 @@ public class PostGenerator : MonoBehaviour
 
     private List<GameObject> tabs;
 
-    private List<List<PostContainer>> tabContents;
-    public List<PostContainer> AllowedPosts;
-    public List<PostContainer> DeletedPosts;
+    private List<List<PostParameters>> tabContents;
+    public List<PostParameters> AllowedPosts;
+    public List<PostParameters> DeletedPosts;
 
     private TextParser loader;
 
@@ -30,44 +31,46 @@ public class PostGenerator : MonoBehaviour
             .Where(x => x.name.StartsWith("TabPage"))
             .ToList();
         
-        tabContents = new List<List<PostContainer>>();
-        tabContents.Add(new List<PostContainer>());
-        tabContents.Add(new List<PostContainer>());
-        tabContents.Add(new List<PostContainer>());
-        tabContents.Add(new List<PostContainer>());
+        tabContents = new List<List<PostParameters>>();
+        tabContents.Add(new List<PostParameters>());
+        tabContents.Add(new List<PostParameters>());
+        tabContents.Add(new List<PostParameters>());
+        tabContents.Add(new List<PostParameters>());
 
-        AllowedPosts = new List<PostContainer>();
-        DeletedPosts = new List<PostContainer>();
+        AllowedPosts = new List<PostParameters>();
+        DeletedPosts = new List<PostParameters>();
     }
 
     // Update is called once per frame
     void Update()
     {
         DebugSpawnPost();
-        AgePosts(0);
-        AgePosts(1);
-        AgePosts(2);
-        AgePosts(3);
+        ClearPosts(0);
+        ClearPosts(1);
+        ClearPosts(2);
+        ClearPosts(3);
     }
 
-    void AgePosts(int index)
+    void ClearPosts(int index)
     {
         var posts = tabContents[index];
-        var removed = new List<PostContainer>();
+        var removed = new List<PostParameters>();
         foreach (var post in posts)
         {
-            post.Life -= Time.deltaTime;
-            post.TimerDisplay.text = string.Format("{0:F1}", post.Life);
-            
-            if (post.Life < 0)
+            if (!post.Active)
             {
-                post.Active = false;
-
                 // score the post here
-                AllowedPosts.Add(post);
-
+                if (post.Deleted)
+                {
+                    DeletedPosts.Add(post);
+                    Debug.Log("Deleted");
+                }
+                else
+                {
+                    AllowedPosts.Add(post);
+                    Debug.Log("Allowed");
+                }
                 removed.Add(post);
-                Destroy(post.LinkedGameObject);
             }
         }
         foreach (var del in removed)
@@ -81,11 +84,12 @@ public class PostGenerator : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Q))
         {
-            var post = new PostContainer()
+            var post = new PostParameters
             {
                 Username = "Ribbitor",
                 IsFrog = true,
                 Active = true,
+                Deleted = false,
                 Life = PostLifetime,
                 Content = loader.GetRandomPost(1),
             };
@@ -93,11 +97,12 @@ public class PostGenerator : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.W))
         {
-            var post = new PostContainer()
+            var post = new PostParameters()
             {
                 Username = "G*mer",
                 IsFrog = true,
                 Active = true,
+                Deleted = false,
                 Life = PostLifetime,
                 Content = loader.GetRandomPost(2),
             };
@@ -105,11 +110,12 @@ public class PostGenerator : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.E))
         {
-            var post = new PostContainer()
+            var post = new PostParameters()
             {
                 Username = "Weeb",
                 IsFrog = true,
                 Active = true,
+                Deleted = false,
                 Life = PostLifetime,
                 Content = loader.GetRandomPost(3),
             };
@@ -117,11 +123,12 @@ public class PostGenerator : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
-            var post = new PostContainer()
+            var post = new PostParameters()
             {
                 Username = "Memer",
                 IsFrog = true,
                 Active = true,
+                Deleted = false,
                 Life = PostLifetime,
                 Content = loader.GetRandomPost(4),
             };
@@ -131,24 +138,19 @@ public class PostGenerator : MonoBehaviour
 
     // Returns true if successfully created post in tab.
     // Adds post to tab's contents
-    bool SpawnPost(int tabIndex, PostContainer post)
+    bool SpawnPost(int tabIndex, PostParameters post)
     {
         if (tabContents[tabIndex].Count == 5) return false;
         
         var newPost = Instantiate(PostPrefab, new Vector3(0, 0, 0), Quaternion.identity);
 
-        newPost.FindChildObject("Content").GetComponent<Text>().text = post.Content.Text.ToUpper();
-        newPost.FindChildObject("Username").GetComponent<Text>().text = post.Username.ToUpper();
-        
-        post.TimerDisplay = newPost.FindChildObject("TimeLeft").GetComponent<Text>();
-        post.TimerDisplay.text = string.Format("{0:F1}", post.Life);
+        newPost.GetComponent<PostHandler>().Fields = post;
 
         newPost.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 130);
         newPost.transform.SetParent(tabs[tabIndex].transform);
         newPost.transform.localScale = new Vector3(1, 1, 1);
-
-        post.LinkedGameObject = newPost;
-        tabContents[tabIndex].Add(post);
+        
+        tabContents[tabIndex].Add(newPost.GetComponent<PostHandler>().Fields);
         return true;
     }
 }
