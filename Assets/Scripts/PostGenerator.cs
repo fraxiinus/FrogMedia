@@ -86,7 +86,7 @@ public class PostGenerator : MonoBehaviour
         {
             var post = new PostParameters
             {
-                Username = "Ribbitor",
+                Username = loader.GetRandomName(true),
                 IsFrog = true,
                 Active = true,
                 Deleted = false,
@@ -99,7 +99,7 @@ public class PostGenerator : MonoBehaviour
         {
             var post = new PostParameters()
             {
-                Username = "G*mer",
+                Username = loader.GetRandomName(true),
                 IsFrog = true,
                 Active = true,
                 Deleted = false,
@@ -112,7 +112,7 @@ public class PostGenerator : MonoBehaviour
         {
             var post = new PostParameters()
             {
-                Username = "Weeb",
+                Username = loader.GetRandomName(true),
                 IsFrog = true,
                 Active = true,
                 Deleted = false,
@@ -125,7 +125,7 @@ public class PostGenerator : MonoBehaviour
         {
             var post = new PostParameters()
             {
-                Username = "Memer",
+                Username = loader.GetRandomName(true),
                 IsFrog = true,
                 Active = true,
                 Deleted = false,
