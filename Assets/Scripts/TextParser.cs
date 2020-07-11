@@ -4,78 +4,114 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Diagnostics;
+using System.Linq;
 
 public class TextParser : MonoBehaviour
 {
     //MAKE TEXT FILES AS THESE NAMES
+    public List<string> FrogParts;
+    public List<string> SnakeParts;
+    public List<string> UniqueSnakes;
+    public List<string> UniqueFrogs;
+    public List<PostText> Posts;
 
-    public List<string> frog_names;
+    public TextAsset UniqueNamesText;
+    public TextAsset PartNamesText;
+    public TextAsset Posts1;
+    public TextAsset Posts2;
+    public TextAsset Posts3;
+    public TextAsset Posts4;
 
-    public List<string> snake_names;
-
-    public List<Tuple<string,int>> post_texts;
-
-
+    private char columnDelimiter = '\t';
     // Start is called before the first frame update
     void Start()
     {
         //Initialize the Lists
-        frog_names = new List<string>();
-        snake_names = new List<string>();
-        post_texts = new List<Tuple<string,int>>();
+        FrogParts = new List<string>();
+        SnakeParts = new List<string>();
+        UniqueSnakes = new List<string>();
+        UniqueFrogs = new List<string>();
+        Posts = new List<PostText>();
 
-
-        string[] filenames = Directory.GetFiles(@".\Assets\Scripts\text\", "*.txt");
-        foreach (string filename in filenames)
-        {
-            ParseFile(filename);
-        }
-
-        /**
-        foreach(string name in frog_names)
-        {
-            UnityEngine.Debug.Log(name);
-        }
-        foreach (string name in snake_names)
-        {
-            UnityEngine.Debug.Log(name);
-        }
-        
-        foreach (Tuple<string,int> post_weight in post_texts)
-        {
-            UnityEngine.Debug.Log(post_weight.Item1 + post_weight.Item2);
-        }
-        */
+        LoadUniqueNames();
+        LoadNameParts();
+        LoadPosts(1, Posts1);
+        LoadPosts(2, Posts2);
+        LoadPosts(3, Posts3);
+        LoadPosts(4, Posts4);
     }
 
-
-    void ParseFile(string filename)
+    public PostText GetRandomPost(int category)
     {
-        string fulltext = File.ReadAllText(filename);
+        var collection = Posts.Where(x => x.Category == category);
+        return collection.ElementAt(UnityEngine.Random.Range(0, collection.Count()));
+    }
 
-        if(filename.EndsWith("frog_names.txt")) //Format: New line seperated names.
+    void LoadUniqueNames()
+    {
+        var lines = UniqueNamesText.text.Split('\n');
+        int lineCounter = 0;
+        foreach (var line in lines)
         {
-            string[] names = fulltext.Split('\n');
-            frog_names.AddRange(names);
-        }
-        else if (filename.EndsWith("snake_names.txt")) //Format: New line seperated names.
-        {
-            string[] names = fulltext.Split('\n');
-            snake_names.AddRange(names);
-        }
-        else if (filename.EndsWith("post_texts.txt")) //Format: Post text, then a new line, then the weight (0 FAKE to 10 FAKE). New line after this.
-        {
-            
-            string[] names = fulltext.Split('\n');
-            for(int i = 0; i < names.Length; i+=2)
+            var parts = line.Split(columnDelimiter);
+            if (parts.Length < 2)
             {
-                //UnityEngine.Debug.Log("names: " + names[i] + "/" + names[i + 1]);
-                int parsedInt;
-                if(!Int32.TryParse(names[i + 1].Trim(), out parsedInt)) UnityEngine.Debug.Log("Parsing Int Error in post_texts.txt");
-                post_texts.Add(Tuple.Create(names[i], parsedInt));
+                Debug.Log($"Invalid line {lineCounter} in PartNamesText");
+                continue;
             }
+
+            if (parts[1].Trim().Equals("frog", StringComparison.OrdinalIgnoreCase))
+            {
+                UniqueFrogs.Add(parts[0].ToUpper());
+            }
+            else if (parts[1].Trim().Equals("snake", StringComparison.OrdinalIgnoreCase))
+            {
+                UniqueSnakes.Add(parts[0].ToUpper());
+            }
+            lineCounter++;
         }
     }
 
+    void LoadNameParts()
+    {
+        var lines = PartNamesText.text.Split('\n');
+        int lineCounter = 0;
+        foreach (var line in lines)
+        {
+            var parts = line.Split(columnDelimiter);
+            if (parts.Length < 2)
+            {
+                Debug.Log($"Invalid line {lineCounter} in PartNamesText");
+                continue;
+            }
+
+            if (parts[1].Trim().Equals("frog", StringComparison.OrdinalIgnoreCase))
+            {
+                FrogParts.Add(parts[0].ToUpper());
+            }
+            else if (parts[1].Trim().Equals("snake", StringComparison.OrdinalIgnoreCase))
+            {
+                SnakeParts.Add(parts[0].ToUpper());
+            }
+            lineCounter++;
+        }
+    }
+
+    void LoadPosts(int category, TextAsset source)
+    {
+        var lines = source.text.Split('\n');
+        int lineCounter = 0;
+        foreach (var line in lines)
+        {
+            var parts = line.Split(columnDelimiter);
+            if (parts.Length < 2)
+            {
+                Debug.Log($"Invalid line {lineCounter} in PartNamesText");
+                continue;
+            }
+            int fakeScore = 0;
+            Int32.TryParse(parts[1].Trim(), out fakeScore);
+            Posts.Add(new PostText { Content = parts[0].ToUpper(), FAKE = fakeScore, Category = category } );
+        }
+    }
 }
