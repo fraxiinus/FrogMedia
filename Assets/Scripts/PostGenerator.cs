@@ -147,7 +147,7 @@ public class PostGenerator : MonoBehaviour
         newPost.GetComponent<PostHandler>().Fields = post;
 
         newPost.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 130);
-        newPost.transform.SetParent(tabs[tabIndex].transform);
+        newPost.transform.SetParent(tabs[tabIndex].FindChildObject("Container").transform);
         newPost.transform.localScale = new Vector3(1, 1, 1);
         
         tabContents[tabIndex].Add(newPost.GetComponent<PostHandler>().Fields);
