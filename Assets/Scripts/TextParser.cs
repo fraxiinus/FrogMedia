@@ -47,6 +47,27 @@ public class TextParser : MonoBehaviour
         return collection.ElementAt(UnityEngine.Random.Range(0, collection.Count()));
     }
 
+    public string GetRandomName(bool isFrog)
+    {
+        //Is this a Unique or Assembled name?
+        int type = UnityEngine.Random.Range(0,2);
+        string ret = "";
+
+        if(isFrog) {
+            if(type == 0) ret = UniqueFrogs.ElementAt(UnityEngine.Random.Range(0,UniqueFrogs.Count()));
+            if(type == 1) {
+                ret = FrogParts.ElementAt(UnityEngine.Random.Range(0,FrogParts.Count())) + " " + FrogParts.ElementAt(UnityEngine.Random.Range(0,FrogParts.Count()));
+            }
+        }
+        if(!isFrog) {
+            if(type == 0) ret = UniqueSnakes.ElementAt(UnityEngine.Random.Range(0,UniqueSnakes.Count()));
+            if(type == 1) {
+                ret = SnakeParts.ElementAt(UnityEngine.Random.Range(0,FrogParts.Count())) + " " + SnakeParts.ElementAt(UnityEngine.Random.Range(0,FrogParts.Count()));
+            }
+        }
+        return ret;
+    }
+
     void LoadUniqueNames()
     {
         var lines = UniqueNamesText.text.Split('\n');
@@ -111,6 +132,12 @@ public class TextParser : MonoBehaviour
             }
             int fakeScore = 0;
             Int32.TryParse(parts[1].Trim(), out fakeScore);
+
+            //Length check
+            if(parts[0].Length >= 251) {
+                parts[0] = parts[0].Substring(0,240) + "...";
+            }
+
             Posts.Add(new PostText { Content = parts[0].ToUpper(), FAKE = fakeScore, Category = category } );
         }
     }
