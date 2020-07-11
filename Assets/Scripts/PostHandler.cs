@@ -10,6 +10,8 @@ public class PostHandler : MonoBehaviour, IPointerClickHandler
     void Start()
     {
         TimerDisplay = gameObject.FindChildObject("TimeLeft").GetComponent<Text>();
+        gameObject.FindChildObject("Username").GetComponent<Text>().text = Fields.Username;
+        gameObject.FindChildObject("Content").GetComponent<Text>().text = Fields.Content.Text;
     }
 
     void Update()
