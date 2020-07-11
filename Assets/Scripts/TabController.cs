@@ -8,6 +8,7 @@ using System;
 public class TabController : MonoBehaviour
 {
     public ToggleGroup TabGroup;
+    public GameObject TabPanel;
     private Toggle lastActive;
 
     public GameObject TabPage1;
@@ -25,6 +26,8 @@ public class TabController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If user didnt use a shortcut, maybe they pressed a button
+        HandleTabShortcuts();
         var activeButton = TabGroup.ActiveToggles().First();
 
         if (activeButton != lastActive)
@@ -53,6 +56,36 @@ public class TabController : MonoBehaviour
 
             lastActive = activeButton;
         }
+    }
+
+    bool HandleTabShortcuts()
+    {
+        if (Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            TabPanel.FindChildObject("TabButton1").GetComponent<Toggle>().isOn = true;
+            return true;
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            TabPanel.FindChildObject("TabButton2").GetComponent<Toggle>().isOn = true;
+            return true;
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha3))
+        {
+            TabPanel.FindChildObject("TabButton3").GetComponent<Toggle>().isOn = true;
+            return true;
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha4))
+        {
+            TabPanel.FindChildObject("TabButton4").GetComponent<Toggle>().isOn = true;
+            return true;
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha5))
+        {
+            TabPanel.FindChildObject("TabButton5").GetComponent<Toggle>().isOn = true;
+            return true;
+        }
+        return false;
     }
 
     void HideAllPages()

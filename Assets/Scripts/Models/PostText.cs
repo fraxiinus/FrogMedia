@@ -5,5 +5,5 @@ public class PostText
 
     public float FAKE { get; set; }
 
-    public int Category{ get; set; }
+    public int Category { get; set; }
 }
