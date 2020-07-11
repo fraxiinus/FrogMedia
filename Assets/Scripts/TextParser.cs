@@ -132,13 +132,13 @@ public class TextParser : MonoBehaviour
             }
             int fakeScore = 0;
             Int32.TryParse(parts[1].Trim(), out fakeScore);
-
+            
             //Length check
             if(parts[0].Length >= 251) {
                 parts[0] = parts[0].Substring(0,240) + "...";
             }
 
-            Posts.Add(new PostText { Content = parts[0].ToUpper(), FAKE = fakeScore, Category = category } );
+            Posts.Add(new PostText { Text = parts[0].ToUpper(), FAKE = fakeScore, Category = category } );
         }
     }
 }

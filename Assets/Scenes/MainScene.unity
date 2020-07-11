@@ -4423,6 +4423,7 @@ MonoBehaviour:
   PageContainer: {fileID: 101956388}
   PostPrefab: {fileID: 8429715083063298112, guid: cfefa56cb872a37478ae9f15876edac3,
     type: 3}
+  PostLifetime: 6
 --- !u!1 &1785560077
 GameObject:
   m_ObjectHideFlags: 0
