@@ -38,19 +38,19 @@ public class PostGenerator : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Q))
         {
-            SpawnPost(0, "frog name", loader.GetRandomPost(1));
+            SpawnPost(0, loader.GetRandomName(true), loader.GetRandomPost(1));
         }
         if (Input.GetKeyUp(KeyCode.W))
         {
-            SpawnPost(1, "frog name", loader.GetRandomPost(2));
+            SpawnPost(1, loader.GetRandomName(true), loader.GetRandomPost(2));
         }
         if (Input.GetKeyUp(KeyCode.E))
         {
-            SpawnPost(2, "frog name", loader.GetRandomPost(3));
+            SpawnPost(2, loader.GetRandomName(true), loader.GetRandomPost(3));
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
-            SpawnPost(3, "frog name", loader.GetRandomPost(4));
+            SpawnPost(3, loader.GetRandomName(true), loader.GetRandomPost(4));
         }
     }
 

@@ -2,3 +2,8 @@ froggers	frog
 Ssssssssss	snake
 croak	frog
 nake	snake
+sssssam	snake
+green	frog
+fang	snake
+gorf	frog
+ekans	snake
