@@ -36,19 +36,19 @@ public class PostGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Alpha1))
+        if (Input.GetKeyUp(KeyCode.Q))
         {
             SpawnPost(0, "frog name", loader.GetRandomPost(1));
         }
-        if (Input.GetKeyUp(KeyCode.Alpha2))
+        if (Input.GetKeyUp(KeyCode.W))
         {
             SpawnPost(1, "frog name", loader.GetRandomPost(2));
         }
-        if (Input.GetKeyUp(KeyCode.Alpha3))
+        if (Input.GetKeyUp(KeyCode.E))
         {
             SpawnPost(2, "frog name", loader.GetRandomPost(3));
         }
-        if (Input.GetKeyUp(KeyCode.Alpha4))
+        if (Input.GetKeyUp(KeyCode.R))
         {
             SpawnPost(3, "frog name", loader.GetRandomPost(4));
         }
