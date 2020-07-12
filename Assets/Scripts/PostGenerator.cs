@@ -51,7 +51,7 @@ public class PostGenerator : MonoBehaviour
     {
         
     }
-
+    
     // Delete me
     // void DebugSpawnPost()
     // {

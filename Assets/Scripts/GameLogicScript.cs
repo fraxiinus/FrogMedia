@@ -77,7 +77,7 @@ public class GameLogicScript : MonoBehaviour
         userHappiness = 50;
         fakeRating = 50;
         
-        userMeter.MaxValue = 100;    
+        userMeter.MaxValue = 100;
         fakeMeter.MaxValue = 100;
 
         RulesForDays = new List<RulesContainer>(){
@@ -228,11 +228,11 @@ public class GameLogicScript : MonoBehaviour
         {
             if (post.Deleted)
             {
-                fakeRating -= (post.Content.FAKE * 10)/2;
+                fakeRating -= post.Content.FAKE;
             }
             else
             {
-                fakeRating += post.Content.FAKE;
+                fakeRating += post.Content.FAKE * 5;
             }
         }
         else
@@ -256,13 +256,13 @@ public class GameLogicScript : MonoBehaviour
             //Is this gonna be a random or a pregen snake post?
             var randOrPregen = Random.Range(0, 100);
             
-            if(randOrPregen <= 74+DayIndex && DayIndex != 0) { //TODO change back
+            if(randOrPregen <= 74 + DayIndex && DayIndex != 0) { //TODO change back
                 fakePost = loader.GetRandomPost(category);
                 fakePost.FAKE += Random.Range(minFakePerDay[DayIndex], maxFakePerDay[DayIndex]);
                 //Editing of text
 
                 var randomHashtagIndex = Random.Range(1, DayIndex); //pick a random day's hashtags from the days we've passed
-                string randomHashtag = " " + RulesForDays[1].rules[Random.Range(0,1)].ToUpper(); //Each day has 2 hashtags: pick one
+                string randomHashtag = " " + RulesForDays[randomHashtagIndex].rules[Random.Range(0,2)].ToUpper(); //Each day has 2 hashtags: pick one
                 //Pick a random hashtag to add if we're NOT in day 1
                 if(fakePost.Text.Contains("..."))
                     fakePost.Text.Insert(fakePost.Text.IndexOf("..."), randomHashtag);
