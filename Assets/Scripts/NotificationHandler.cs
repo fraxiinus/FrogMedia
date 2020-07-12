@@ -15,6 +15,11 @@ public class NotificationHandler : MonoBehaviour
     public Sprite NewImage;
     public Sprite UnhappyImage;
 
+    public AudioClip UnhappySound;
+    public AudioClip FakeSound;
+    public AudioClip NewSound;
+
+    private AudioSource audioSource;
     private SpriteRenderer spriteRenderer;
 
     // Hardcoded tab positions 765
@@ -34,11 +39,13 @@ public class NotificationHandler : MonoBehaviour
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        audioSource = gameObject.GetComponent<AudioSource>();
         xOffset = Random.Range(-5f, 5f);
         yOffset = Random.Range(-5f, 5f);
         SetImage();
         SetPosition();
         StartCoroutine(Animate());
+        PlaySound();
     }
 
     // Update is called once per frame
@@ -78,6 +85,25 @@ public class NotificationHandler : MonoBehaviour
         }
         transform.position = toPosition;
         Destroy(this.gameObject);
+    }
+
+    void PlaySound()
+    {
+        switch (Type)
+        {
+            case NotificationType.FAKE:
+                audioSource.clip = FakeSound;
+                audioSource.PlayDelayed(0.05f);
+                break;
+            case NotificationType.NEW:
+                audioSource.clip = NewSound;
+                audioSource.PlayDelayed(0.05f);
+                break;
+            case NotificationType.UNHAPPY:
+                audioSource.clip = UnhappySound;
+                audioSource.PlayDelayed(0.05f);
+                break;
+        }
     }
 
     void SetPosition()

@@ -16,7 +16,7 @@ public class PostGenerator : MonoBehaviour
 
     private List<GameObject> tabs;
 
-    private List<List<PostParameters>> tabContents;
+    public List<List<PostParameters>> tabContents;
     public List<PostParameters> AllowedPosts;
     public List<PostParameters> DeletedPosts;
 
@@ -47,39 +47,7 @@ public class PostGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //DebugSpawnPost();
-        ClearPosts(0);
-        ClearPosts(1);
-        ClearPosts(2);
-        ClearPosts(3);
-    }
-
-    public void ClearPosts(int index)
-    {
-        var posts = tabContents[index];
-        var removed = new List<PostParameters>();
-        foreach (var post in posts)
-        {
-            if (!post.Active)
-            {
-                // score the post here
-                if (post.Deleted)
-                {
-                    DeletedPosts.Add(post);
-                    Debug.Log("Deleted");
-                }
-                else
-                {
-                    AllowedPosts.Add(post);
-                    Debug.Log("Allowed");
-                }
-                removed.Add(post);
-            }
-        }
-        foreach (var del in removed)
-        {
-            posts.Remove(del);
-        }
+        
     }
 
     // Delete me

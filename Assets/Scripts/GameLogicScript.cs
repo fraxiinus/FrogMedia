@@ -23,7 +23,9 @@ public class GameLogicScript : MonoBehaviour
     public List<float> maxFakePerDay; // set in unity editor
     public GameObject UserMeterGO; // Set in Unity Editor
     public GameObject FakeMeterGO; // Set in unity editor
+    public GameObject GameOverScreen; // Set in unity editor
 
+    private bool isGameOver = false;
     private TextParser loader;
     private PostGenerator generator;
     private MeterHandler userMeter; // internal meter handler object
@@ -55,6 +57,8 @@ public class GameLogicScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isGameOver) return;
+
         float timeSinceLastFrame = Time.deltaTime;
         //Check time left in Day
         timeLeftInDay -= timeSinceLastFrame;
@@ -82,10 +86,67 @@ public class GameLogicScript : MonoBehaviour
         }
 
         if(userHappiness >= 100) userHappiness = 100;
+        else if (userHappiness <= 0) // END THE GAME YOU LOST
+        {
+            ShowGameOver();
+            isGameOver = true;
+        } 
         else userHappiness += happinessPerSecond * timeSinceLastFrame;
 
         userMeter.SetValueTo(userHappiness);
         fakeMeter.SetValueTo(fakeRating);
+
+        ScanForPostDeletes(0);
+        ScanForPostDeletes(1);
+        ScanForPostDeletes(2);
+        ScanForPostDeletes(3);
+    }
+
+    void ShowGameOver()
+    {
+        GameOverScreen.SetActive(true);
+    }
+
+    void ScanForPostDeletes(int index)
+    {
+        var posts = generator.tabContents[index];
+        var removed = new List<PostParameters>();
+        foreach (var post in posts)
+        {
+            if (!post.Active)
+            {
+                CalculateFake(post);
+                removed.Add(post);
+            }
+        }
+        foreach (var del in removed)
+        {
+            posts.Remove(del);
+        }
+    }
+
+    void CalculateFake(PostParameters post)
+    {
+        // Fake post spotted
+        if (post.Content.FAKE > 0)
+        {
+            if (post.Deleted)
+            {
+                fakeRating -= post.Content.FAKE * 10;
+            }
+            else
+            {
+                fakeRating += post.Content.FAKE * 10;
+            }
+        }
+        else
+        {
+            // You deleted a post that was not fake, people are mad
+            if (post.Deleted)
+            {
+                userHappiness -= 20;
+            }
+        }
     }
 
     PostText GetPost(int category)
