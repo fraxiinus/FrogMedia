@@ -32,6 +32,11 @@ public class GameLogicScript : MonoBehaviour
     public GameObject RuleTextPrefab; // set in unity editor
     public GameObject RetryButton; // Set in unity editor
 
+    [SerializeField]
+    private List<string> RulesTexts; //The text for each day that appears on screen. MANUALLY SET IN UNITY EDITOR.
+    [SerializeField]
+    private List<RulesContainer> RulesForDays; //The text to modify the messages. Each day is a different RulesContainer object, just a container for a string List
+    //Manually set in the Create function bc im a code goblin
     private bool isPaused = false;
     private TextParser loader;
     private PostGenerator generator;
@@ -68,6 +73,18 @@ public class GameLogicScript : MonoBehaviour
         
         userMeter.MaxValue = 100;    
         fakeMeter.MaxValue = 100;
+
+        RulesForDays = new List<RulesContainer>(){
+            new RulesContainer(new List<string>() {"none"}),
+            new RulesContainer(new List<string>() {"#Snake","#Snakey"}),
+            new RulesContainer(new List<string>() {"#Snek","#Sneaky"}),
+            new RulesContainer(new List<string>() {"#DefinitelyFrog","#RealNews"}),
+            new RulesContainer(new List<string>() {"Yummy","Nom"}),
+            new RulesContainer(new List<string>() {"owo","FrogChamp"}),
+        };
+
+
+        DisplayRule(RulesTexts[DayIndex]);
     }
 
     // Update is called once per frame
@@ -82,10 +99,7 @@ public class GameLogicScript : MonoBehaviour
         if(timeLeftInDay <= 0) 
         {
             ShowNextDayOverlay(); // this will pause the game
-            timeLeftInDay = timePerDay;
-            DayIndex++;
-            DayCountText.text = (DayIndex + 1).ToString();
-            DisplayRule("This is a test rule, delete this line later");
+            goNextDay();
             return; //TODO MOVE TO NEXT DAY
         }
         //Check time left between spawning posts
@@ -134,7 +148,14 @@ public class GameLogicScript : MonoBehaviour
         ScanForPostDeletes(3);
     }
 
-    void ShowGameOver(bool unhappy)
+    void goNextDay() {
+            timeLeftInDay = timePerDay;
+            DayIndex++;
+            DayCountText.text = (DayIndex + 1).ToString();
+            DisplayRule(RulesTexts[DayIndex]);
+    }
+
+    void ShowGameOver()
     {
         if (unhappy)
         {
@@ -208,10 +229,31 @@ public class GameLogicScript : MonoBehaviour
         var outOfHundred = Random.Range(0, 100);
         if (outOfHundred <= fakeChancesPerDay[DayIndex])
         {
-            // Get a Fake post instead~
-            var fakePost = loader.GetRandomFakePost(minFakePerDay[DayIndex], maxFakePerDay[DayIndex]);
-            // Set the category because thats the only way to knows where it is.
-            fakePost.Category = category;
+            // Get a Fake post~ uwu
+            PostText fakePost;
+            //Is this gonna be a random or a pregen snake post?
+            var randOrPregen = Random.Range(0, 100);
+            
+            if(randOrPregen <= 74+DayIndex && DayIndex != 0) { //TODO change back
+                fakePost = loader.GetRandomPost(category);
+                fakePost.FAKE += Random.Range(minFakePerDay[DayIndex], maxFakePerDay[DayIndex]);
+                //Editing of text
+
+                var randomHashtagIndex = Random.Range(1, DayIndex); //pick a random day's hashtags from the days we've passed
+                string randomHashtag = " " + RulesForDays[1].rules[Random.Range(0,1)].ToUpper(); //Each day has 2 hashtags: pick one
+                //Pick a random hashtag to add if we're NOT in day 1
+                if(fakePost.Text.Contains("..."))
+                    fakePost.Text.Insert(fakePost.Text.IndexOf("..."), randomHashtag);
+                else
+                    fakePost.Text += randomHashtag;
+                Debug.Log("Making a fake post!");
+            }
+            else {
+                fakePost = loader.GetRandomFakePost(minFakePerDay[DayIndex], maxFakePerDay[DayIndex]);
+                // Set the category because thats the only way to knows where it is.
+                fakePost.Category = category;
+            }
+            
             return fakePost;
         }
         else 
