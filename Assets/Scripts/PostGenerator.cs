@@ -17,6 +17,7 @@ public class PostGenerator : MonoBehaviour
     private List<GameObject> tabs;
 
     public List<List<PostParameters>> tabContents;
+    public List<GameObject> allPosts;
     public List<PostParameters> AllowedPosts;
     public List<PostParameters> DeletedPosts;
 
@@ -42,6 +43,7 @@ public class PostGenerator : MonoBehaviour
 
         AllowedPosts = new List<PostParameters>();
         DeletedPosts = new List<PostParameters>();
+        allPosts = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -129,6 +131,8 @@ public class PostGenerator : MonoBehaviour
         
         tabContents[tabIndex].Add(newPost.GetComponent<PostHandler>().Fields);
 
+        allPosts.Add(newPost);
+
         SpawnNotification(tabIndex, NotificationType.NEW);
         return true;
     }
@@ -143,5 +147,16 @@ public class PostGenerator : MonoBehaviour
         var newNotif = Instantiate(NotifPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         newNotif.GetComponent<NotificationHandler>().Type = type;
         newNotif.GetComponent<NotificationHandler>().TabIndex = tabIndex;
+    }
+
+    public void ClearAllPosts()
+    {
+        foreach(var post in allPosts)
+        {
+            if(post)
+            {
+                Destroy(post);
+            }
+        }
     }
 }

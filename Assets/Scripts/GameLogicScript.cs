@@ -31,6 +31,7 @@ public class GameLogicScript : MonoBehaviour
     public GameObject RuleList; // set in unity editor
     public GameObject RuleTextPrefab; // set in unity editor
     public GameObject RetryButton; // Set in unity editor
+    public GameObject TabController; // Set in unity editor
 
     [SerializeField]
     private List<string> RulesTexts; //The text for each day that appears on screen. MANUALLY SET IN UNITY EDITOR.
@@ -148,14 +149,17 @@ public class GameLogicScript : MonoBehaviour
         ScanForPostDeletes(3);
     }
 
-    void goNextDay() {
-            timeLeftInDay = timePerDay;
-            DayIndex++;
-            DayCountText.text = (DayIndex + 1).ToString();
-            DisplayRule(RulesTexts[DayIndex]);
+    void goNextDay() 
+    {
+        generator.ClearAllPosts();
+        TabController.GetComponent<TabController>().GoToHomePage();
+        timeLeftInDay = timePerDay;
+        DayIndex++;
+        DayCountText.text = (DayIndex + 1).ToString();
+        DisplayRule(RulesTexts[DayIndex]);
     }
 
-    void ShowGameOver()
+    void ShowGameOver(bool unhappy)
     {
         if (unhappy)
         {
@@ -281,7 +285,6 @@ public class GameLogicScript : MonoBehaviour
 
     public void RetryButtonPressed()
     {
-        GameOverScreen.SetActive(false);
         // Reset game
         userHappiness = 50f;
         fakeRating = 50f;
@@ -292,5 +295,6 @@ public class GameLogicScript : MonoBehaviour
         timeSinceLastPost = timesBetweenPosts[DayIndex];
         isPaused = false;
         ClearRules();
+        GameOverScreen.SetActive(false);
     }
 }

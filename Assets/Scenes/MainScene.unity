@@ -5017,11 +5017,13 @@ MonoBehaviour:
   RuleTextPrefab: {fileID: 8177452577199938467, guid: d8ae5adfe3e74b5419c1cd27cdb2a1bd,
     type: 3}
   RetryButton: {fileID: 24641085}
+  TabController: {fileID: 497233223}
   RulesTexts:
   - 'Watch out for fake posts! Scams, snakes, snake scams, etc. '
-  - 'to spread MISINFORMATION Snakes have been using these hashtags: #Snake #Snakey '
+  - 'to spread MISINFORMATION Snakes have been using these hashtags:                                                         
+    #Snake #Snakey '
   - '#Snek #Sneaky'
-  - '#DefinitelyFrog #RealNews ?'
+  - '#DefinitelyFrog #RealNews'
   - '#Yummy #Nom #Tasty'
   - '#owo #S #FrogChomp'
   - '#FrogSsiense'
