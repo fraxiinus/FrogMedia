@@ -15,6 +15,7 @@ public class TextParser : MonoBehaviour
     public List<string> UniqueFrogs;
     public List<string> HashtagRules;
     public List<PostText> Posts;
+    public List<PostText> FakePosts;
 
     public TextAsset UniqueNamesText;
     public TextAsset PartNamesText;
@@ -23,6 +24,7 @@ public class TextParser : MonoBehaviour
     public TextAsset Posts2;
     public TextAsset Posts3;
     public TextAsset Posts4;
+    public TextAsset FakeTexts;
 
     private char columnDelimiter = '\t';
     // Start is called before the first frame update
@@ -34,19 +36,27 @@ public class TextParser : MonoBehaviour
         UniqueSnakes = new List<string>();
         UniqueFrogs = new List<string>();
         Posts = new List<PostText>();
+        FakePosts = new List<PostText>();
 
         LoadUniqueNames();
         LoadNameParts();
         LoadHashtagRules();
-        LoadPosts(1, Posts1);
-        LoadPosts(2, Posts2);
-        LoadPosts(3, Posts3);
-        LoadPosts(4, Posts4);
+        LoadPosts(0, Posts1);
+        LoadPosts(1, Posts2);
+        LoadPosts(2, Posts3);
+        LoadPosts(3, Posts4);
+        LoadFakePosts(FakeTexts);
     }
 
     public PostText GetRandomPost(int category)
     {
         var collection = Posts.Where(x => x.Category == category);
+        return collection.ElementAt(UnityEngine.Random.Range(0, collection.Count()));
+    }
+
+    public PostText GetRandomFakePost(float minFake, float maxFake)
+    {
+        var collection = FakePosts.Where(x => (x.FAKE >= minFake) && (x.FAKE <= maxFake));
         return collection.ElementAt(UnityEngine.Random.Range(0, collection.Count()));
     }
 
@@ -165,11 +175,38 @@ public class TextParser : MonoBehaviour
             Int32.TryParse(parts[1].Trim(), out fakeScore);
             
             //Length check
-            if(parts[0].Length >= 251) {
+            if(parts[0].Length >= 243) {
                 parts[0] = parts[0].Substring(0,240) + "...";
             }
 
             Posts.Add(new PostText { Text = parts[0].ToUpper(), FAKE = fakeScore, Category = category } );
+            lineCounter++;
+        }
+    }
+
+    void LoadFakePosts(TextAsset source)
+    {
+        var lines = source.text.Split('\n');
+        int lineCounter = 0;
+        foreach (var line in lines)
+        {
+            var parts = line.Split(columnDelimiter);
+            if (parts.Length < 2)
+            {
+                Debug.Log($"Invalid line {lineCounter} in PartNamesText");
+                continue;
+            }
+            int fakeScore = 0;
+            Int32.TryParse(parts[1].Trim(), out fakeScore);
+            
+            //Length check
+            if(parts[0].Length >= 243) {
+                parts[0] = parts[0].Substring(0,240) + "...";
+            }
+
+            // Fake posts have a category of 4, to keep things seperate
+            FakePosts.Add(new PostText { Text = parts[0].ToUpper(), FAKE = fakeScore, Category = 4 } );
+            lineCounter++;
         }
     }
 }

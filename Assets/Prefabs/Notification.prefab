@@ -71,7 +71,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 369ed04c7cc1d354b94caa15e338d1ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -94,8 +94,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 05acabfca933dca42a1342389aee85c6, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -196,3 +196,6 @@ MonoBehaviour:
   FakeImage: {fileID: 21300000, guid: 369ed04c7cc1d354b94caa15e338d1ba, type: 3}
   NewImage: {fileID: 21300000, guid: 98bc8058dfaa2d248b439515c760ed04, type: 3}
   UnhappyImage: {fileID: 21300000, guid: 16a4c627933f1af47bc8660b979f88e3, type: 3}
+  UnhappySound: {fileID: 8300000, guid: d56c8936436828d4e9bb7b7dbbde89ac, type: 3}
+  FakeSound: {fileID: 8300000, guid: 72cf9a92899a76e47a2a650d93cc37e8, type: 3}
+  NewSound: {fileID: 8300000, guid: 05acabfca933dca42a1342389aee85c6, type: 3}
