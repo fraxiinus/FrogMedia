@@ -85,8 +85,9 @@ public class GameLogicScript : MonoBehaviour
             new RulesContainer(new List<string>() {"#Snake","#Snakey"}),
             new RulesContainer(new List<string>() {"#Snek","#Sneaky"}),
             new RulesContainer(new List<string>() {"#DefinitelyFrog","#RealNews"}),
-            new RulesContainer(new List<string>() {"Yummy","Nom"}),
-            new RulesContainer(new List<string>() {"owo","FrogChamp"}),
+            new RulesContainer(new List<string>() {"#Yummy","#Nom"}),
+            new RulesContainer(new List<string>() {"#owo","#FrogChamp"}),
+            new RulesContainer(new List<string>() {"#LoL","#FrogSsience"})
         };
 
 
