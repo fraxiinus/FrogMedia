@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+//Script tied to the post Prefab, comes along with every new post.
 public class PostHandler : MonoBehaviour, IPointerClickHandler
 {
     public PostParameters Fields { get; set; }

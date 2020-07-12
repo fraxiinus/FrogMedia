@@ -12,7 +12,7 @@ public class PostGenerator : MonoBehaviour
     public GameObject PostPrefab;
     public GameObject NotifPrefab;
 
-    public float PostLifetime;
+    public float PostLifetime; //set in unity
 
     private List<GameObject> tabs;
 
@@ -21,11 +21,13 @@ public class PostGenerator : MonoBehaviour
     public List<PostParameters> DeletedPosts;
 
     private TextParser loader;
+    //private GameLogicScript gameLogic;
 
     // Start is called before the first frame update
     void Start()
     {
         loader = gameObject.GetComponent<TextParser>();
+        //gameLogic = gameObject.GetComponent<GameLogicScript>();
         
         tabs = PageContainer.GetComponentsInChildren<Transform>()
             .Select(x => x.gameObject)
@@ -45,14 +47,14 @@ public class PostGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DebugSpawnPost();
+        //DebugSpawnPost();
         ClearPosts(0);
         ClearPosts(1);
         ClearPosts(2);
         ClearPosts(3);
     }
 
-    void ClearPosts(int index)
+    public void ClearPosts(int index)
     {
         var posts = tabContents[index];
         var removed = new List<PostParameters>();
@@ -143,7 +145,7 @@ public class PostGenerator : MonoBehaviour
 
     // Returns true if successfully created post in tab.
     // Adds post to tab's contents
-    bool SpawnPost(int tabIndex, PostParameters post)
+    public bool SpawnPost(int tabIndex, PostParameters post)
     {
         if (tabContents[tabIndex].Count == 5) return false;
         
@@ -157,6 +159,10 @@ public class PostGenerator : MonoBehaviour
         
         tabContents[tabIndex].Add(newPost.GetComponent<PostHandler>().Fields);
         return true;
+    }
+
+    public void updatePostLifetime(float time) {
+        PostLifetime = time;
     }
 
     void SpawnNotification(int tabIndex, NotificationType type)

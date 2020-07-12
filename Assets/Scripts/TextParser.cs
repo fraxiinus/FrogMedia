@@ -13,10 +13,12 @@ public class TextParser : MonoBehaviour
     public List<string> SnakeParts;
     public List<string> UniqueSnakes;
     public List<string> UniqueFrogs;
+    public List<string> HashtagRules;
     public List<PostText> Posts;
 
     public TextAsset UniqueNamesText;
     public TextAsset PartNamesText;
+    public TextAsset HashtagRulesText;
     public TextAsset Posts1;
     public TextAsset Posts2;
     public TextAsset Posts3;
@@ -35,6 +37,7 @@ public class TextParser : MonoBehaviour
 
         LoadUniqueNames();
         LoadNameParts();
+        LoadHashtagRules();
         LoadPosts(1, Posts1);
         LoadPosts(2, Posts2);
         LoadPosts(3, Posts3);
@@ -90,6 +93,34 @@ public class TextParser : MonoBehaviour
                 UniqueSnakes.Add(parts[0].ToUpper());
             }
             lineCounter++;
+        }
+    }
+
+    void LoadHashtagRules()
+    {
+        var lines = HashtagRulesText.text.Split('\n');
+        //int lineCounter = 0;
+        foreach (var line in lines)
+        {
+            /* Uncomment this later if we want tags on rules.
+            var parts = line.Split(columnDelimiter);
+            if (parts.Length < 2)
+            {
+                Debug.Log($"Invalid line {lineCounter} in PartNamesText");
+                continue;
+            }
+
+            if (parts[1].Trim().Equals("frog", StringComparison.OrdinalIgnoreCase))
+            {
+                UniqueFrogs.Add(parts[0].ToUpper());
+            }
+            else if (parts[1].Trim().Equals("snake", StringComparison.OrdinalIgnoreCase))
+            {
+                UniqueSnakes.Add(parts[0].ToUpper());
+            }
+            lineCounter++;
+            */
+            HashtagRules.Add(line.ToUpper());
         }
     }
 
