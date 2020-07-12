@@ -93,6 +93,12 @@ public class GameLogicScript : MonoBehaviour
         } 
         else userHappiness += happinessPerSecond * timeSinceLastFrame;
 
+        if (fakeRating == 100 && !isGameOver)
+        {
+            isGameOver = true;
+            ShowGameOver();
+        }
+
         userMeter.SetValueTo(userHappiness);
         fakeMeter.SetValueTo(fakeRating);
 
