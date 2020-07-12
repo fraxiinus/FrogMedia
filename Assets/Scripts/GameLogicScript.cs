@@ -117,7 +117,8 @@ public class GameLogicScript : MonoBehaviour
         } 
         else userHappiness += happinessPerSecond * timeSinceLastFrame;
 
-        if (fakeRating >= 100 && !isPaused)
+        if (fakeRating <= 0) fakeRating = 0;
+        else if (fakeRating >= 100 && !isPaused)
         {
             isPaused = true;
             fakeMeter.SetValueTo(100);
