@@ -5600,6 +5600,7 @@ MonoBehaviour:
   userHappiness: 0
   fakeRating: 0
   timePerDay: 40
+  happinessLostPerDelete: 40
   happinessPerSecond: 1.5
   postLifetimes:
   - 6
@@ -5651,8 +5652,7 @@ MonoBehaviour:
   TabController: {fileID: 497233223}
   RulesTexts:
   - 'Watch out for fake posts! Scams, snakes, snake scams, etc. '
-  - 'to spread MISINFORMATION Snakes have been using these hashtags:                                                         
-    #Snake #Snakey '
+  - 'to spread MISINFORMATION Snakes are using the hashtags: #Snake #Snakey '
   - '#Snek #Sneaky'
   - '#DefinitelyFrog #RealNews'
   - '#Yummy #Nom #Tasty'
