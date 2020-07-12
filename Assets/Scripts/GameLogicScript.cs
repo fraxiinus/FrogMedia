@@ -28,6 +28,8 @@ public class GameLogicScript : MonoBehaviour
     public GameObject NextDayPrefab; // Set in unity editor
     public Canvas OverlayDestination; // set in unity editor
     public GameObject DayCounterGO; // set in unity editor
+    public GameObject RuleList; // set in unity editor
+    public GameObject RuleTextPrefab; // set in unity editor
 
     private bool isPaused = false;
     private TextParser loader;
@@ -37,6 +39,8 @@ public class GameLogicScript : MonoBehaviour
     private GameObject currentOverlay = null;
     private Text DayCountText;
 
+    private List<GameObject> currentRules;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +49,7 @@ public class GameLogicScript : MonoBehaviour
         userMeter = UserMeterGO.GetComponent<MeterHandler>();
         fakeMeter = FakeMeterGO.GetComponent<MeterHandler>();
         DayCountText = DayCounterGO.GetComponent<Text>();
+        currentRules = new List<GameObject>();
 
         // The day starts at 0
         DayIndex = 0;
@@ -73,10 +78,11 @@ public class GameLogicScript : MonoBehaviour
         timeLeftInDay -= timeSinceLastFrame;
         if(timeLeftInDay <= 0) 
         {
-            ShowNextDayOverlay();
+            ShowNextDayOverlay(); // this will pause the game
             timeLeftInDay = timePerDay;
             DayIndex++;
             DayCountText.text = (DayIndex + 1).ToString();
+            DisplayRule("This is a test rule, delete this line later");
             return; //TODO MOVE TO NEXT DAY
         }
         //Check time left between spawning posts
@@ -103,6 +109,7 @@ public class GameLogicScript : MonoBehaviour
         else if (userHappiness <= 0) // END THE GAME YOU LOST
         {
             ShowGameOver();
+            fakeMeter.SetValueTo(0);
             isPaused = true;
         } 
         else userHappiness += happinessPerSecond * timeSinceLastFrame;
@@ -110,6 +117,7 @@ public class GameLogicScript : MonoBehaviour
         if (fakeRating >= 100 && !isPaused)
         {
             isPaused = true;
+            fakeMeter.SetValueTo(100);
             ShowGameOver();
         }
 
@@ -197,6 +205,23 @@ public class GameLogicScript : MonoBehaviour
         else 
         {
             return loader.GetRandomPost(category);
+        }
+    }
+
+    void DisplayRule(string ruleText)
+    {
+        var newRule = Instantiate(RuleTextPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        newRule.transform.parent = RuleList.transform;
+        newRule.transform.localScale = new Vector3(1, 1, 1);
+        newRule.GetComponent<Text>().text = ruleText.ToUpper();
+        currentRules.Add(newRule);
+    }
+
+    void ClearRules()
+    {
+        foreach(var rule in currentRules)
+        {
+            Destroy(rule);
         }
     }
 }
