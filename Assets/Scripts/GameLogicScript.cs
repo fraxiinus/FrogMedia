@@ -24,12 +24,15 @@ public class GameLogicScript : MonoBehaviour
     public GameObject UserMeterGO; // Set in Unity Editor
     public GameObject FakeMeterGO; // Set in unity editor
     public GameObject GameOverScreen; // Set in unity editor
+    public GameObject NextDayPrefab; // Set in unity editor
+    public Canvas OverlayDestination; // set in unity editor
 
-    private bool isGameOver = false;
+    private bool isPaused = false;
     private TextParser loader;
     private PostGenerator generator;
     private MeterHandler userMeter; // internal meter handler object
     private MeterHandler fakeMeter; // internal meter handler object
+    private GameObject currentOverlay = null;
 
     // Start is called before the first frame update
     void Start()
@@ -57,18 +60,23 @@ public class GameLogicScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isGameOver) return;
+        if (currentOverlay != null) return;
+        if (isPaused) return;
 
         float timeSinceLastFrame = Time.deltaTime;
         //Check time left in Day
         timeLeftInDay -= timeSinceLastFrame;
-        if( timeLeftInDay <= 0) {
+        if(timeLeftInDay <= 0) 
+        {
             DayIndex++;
+            ShowNextDayOverlay();
+            timeLeftInDay = timePerDay;
             return; //TODO MOVE TO NEXT DAY
         }
         //Check time left between spawning posts
         timeSinceLastPost -= timeSinceLastFrame;
-        if( timeSinceLastPost <= 0) {
+        if( timeSinceLastPost <= 0) 
+        {
             //Spawn a new post
             int rand = UnityEngine.Random.Range(0, 4);
             var post = new PostParameters() //TODO load an actual post
@@ -89,13 +97,13 @@ public class GameLogicScript : MonoBehaviour
         else if (userHappiness <= 0) // END THE GAME YOU LOST
         {
             ShowGameOver();
-            isGameOver = true;
+            isPaused = true;
         } 
         else userHappiness += happinessPerSecond * timeSinceLastFrame;
 
-        if (fakeRating == 100 && !isGameOver)
+        if (fakeRating == 100 && !isPaused)
         {
-            isGameOver = true;
+            isPaused = true;
             ShowGameOver();
         }
 
@@ -111,6 +119,18 @@ public class GameLogicScript : MonoBehaviour
     void ShowGameOver()
     {
         GameOverScreen.SetActive(true);
+    }
+
+    void ShowNextDayOverlay()
+    {
+        if (currentOverlay != null) return;
+        var overlay = Instantiate(NextDayPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        overlay.transform.SetParent(OverlayDestination.transform);
+        overlay.transform.localScale = new Vector3(1, 1, 1);
+        overlay.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0);
+        overlay.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
+        overlay.GetComponent<RectTransform>().offsetMax = new Vector2(0f, -158f);
+        overlay.GetComponent<RectTransform>().offsetMin = new Vector2(0f, 200f);
     }
 
     void ScanForPostDeletes(int index)

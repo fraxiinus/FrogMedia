@@ -1482,7 +1482,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 462, y: -459}
+  m_AnchoredPosition: {x: 462, y: -422.135}
   m_SizeDelta: {x: 1000, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &370327564
@@ -3072,7 +3072,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 0
+  m_Spacing: -73.73
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -4709,6 +4709,9 @@ MonoBehaviour:
   UserMeterGO: {fileID: 1664693038}
   FakeMeterGO: {fileID: 117326955}
   GameOverScreen: {fileID: 609817578}
+  NextDayPrefab: {fileID: 5287143340643891576, guid: 1531a75b904c09d4ba298e18725e572f,
+    type: 3}
+  OverlayDestination: {fileID: 2077546985}
 --- !u!1 &1785560077
 GameObject:
   m_ObjectHideFlags: 0
@@ -5264,7 +5267,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 462, y: -234}
+  m_AnchoredPosition: {x: 462, y: -270.865}
   m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1906852263
