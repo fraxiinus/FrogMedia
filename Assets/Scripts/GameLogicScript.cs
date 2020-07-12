@@ -30,6 +30,7 @@ public class GameLogicScript : MonoBehaviour
     public GameObject DayCounterGO; // set in unity editor
     public GameObject RuleList; // set in unity editor
     public GameObject RuleTextPrefab; // set in unity editor
+    public GameObject RetryButton; // Set in unity editor
 
     private bool isPaused = false;
     private TextParser loader;
@@ -50,6 +51,8 @@ public class GameLogicScript : MonoBehaviour
         fakeMeter = FakeMeterGO.GetComponent<MeterHandler>();
         DayCountText = DayCounterGO.GetComponent<Text>();
         currentRules = new List<GameObject>();
+
+        RetryButton.GetComponent<Button>().onClick.AddListener(delegate { RetryButtonPressed(); } );
 
         // The day starts at 0
         DayIndex = 0;
@@ -231,5 +234,20 @@ public class GameLogicScript : MonoBehaviour
         {
             Destroy(rule);
         }
+    }
+
+    public void RetryButtonPressed()
+    {
+        GameOverScreen.SetActive(false);
+        // Reset game
+        userHappiness = 50f;
+        fakeRating = 50f;
+        DayIndex = 0;
+        DayCountText.text = (DayIndex + 1).ToString();
+        postsLeftToday = postsPerDay[0]; // do we need this? doesnt seem to do anything
+        timeLeftInDay = timePerDay;
+        timeSinceLastPost = timesBetweenPosts[DayIndex];
+        isPaused = false;
+        ClearRules();
     }
 }
