@@ -1,4 +1,16 @@
-Frog Frogly	frog
-Test Name, Esq.	frog
-FUck	snake
-uh oh	snake
+Sir Croaks Alot	frog	
+ComeSlither	snake	0
+Snake Snake Severus Snake	snake	
+El Coqui	frog	
+Bull the Frog	frog	
+I have poisoned darts	frog	
+Don't croak on me	frog	
+Left foot let's hop	frog	
+One hop this time	frog	
+Heat seeking missle	snake	
+You're hot and you're cold	snake	
+Snake Oil	Snake	
+Frog of Memories	frog	
+Death of a frog	snake	8
+Panic! at the Pond	frog	
+Handbag_material2212	frog	8

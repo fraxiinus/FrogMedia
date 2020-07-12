@@ -88,6 +88,11 @@ public class TabController : MonoBehaviour
         return false;
     }
 
+    public void GoToHomePage()
+    {
+        TabPanel.FindChildObject("TabButton1").GetComponent<Toggle>().isOn = true;
+    }
+
     void HideAllPages()
     {
         TabPage1.transform.localScale = new Vector3(0, 0, 0);
