@@ -18,13 +18,13 @@ public class NotificationHandler : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     // Hardcoded tab positions 765
-    private Vector3 startPosition1 = new Vector3(200, 642, 1);
+    private Vector3 startPosition1 = new Vector3(200, 662, 1);
     private Vector3 endPosition1 = new Vector3(200, 765, 1);
-    private Vector3 startPosition2 = new Vector3(340, 642, 1);
+    private Vector3 startPosition2 = new Vector3(340, 662, 1);
     private Vector3 endPosition2 = new Vector3(340, 765, 1);
-    private Vector3 startPosition3 = new Vector3(480, 642, 1);
+    private Vector3 startPosition3 = new Vector3(480, 662, 1);
     private Vector3 endPosition3 = new Vector3(480, 765, 1);
-    private Vector3 startPosition4 = new Vector3(620, 642, 1);
+    private Vector3 startPosition4 = new Vector3(620, 662, 1);
     private Vector3 endPosition4 = new Vector3(620, 765, 1);
 
     // Start is called before the first frame update
