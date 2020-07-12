@@ -33,7 +33,7 @@ public class NextDayOverlayHandler : MonoBehaviour
 
         backgroundImage.color = new Color(0f, 0f, 0f, 0.5f);
 
-        float stayDuration = 2.0f;
+        float stayDuration = 4.0f;
         for (float t = 0f; t < stayDuration; t += Time.deltaTime)
         {
             // Animate sprite moveing

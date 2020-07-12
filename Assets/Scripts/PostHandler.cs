@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 //Script tied to the post Prefab, comes along with every new post.
 public class PostHandler : MonoBehaviour, IPointerClickHandler
@@ -10,16 +11,22 @@ public class PostHandler : MonoBehaviour, IPointerClickHandler
     public GameObject NotifPrefab; // Set in unity inspector
 
     private Text TimerDisplay;
+    private Image backgroundImage;
+
+    private bool Destroyed = false;
 
     void Start()
     {
         TimerDisplay = gameObject.FindChildObject("TimeLeft").GetComponent<Text>();
         gameObject.FindChildObject("Username").GetComponent<Text>().text = Fields.Username;
         gameObject.FindChildObject("Content").GetComponent<Text>().text = Fields.Content.Text;
+
+        backgroundImage = gameObject.GetComponent<Image>();
     }
 
     void Update()
     {
+        if (Destroyed) return;
         Fields.Life -= Time.deltaTime;
         TimerDisplay.text = string.Format("{0:F1}", Fields.Life);
 
@@ -39,8 +46,38 @@ public class PostHandler : MonoBehaviour, IPointerClickHandler
             }
 
             Fields.Active = false;
-            Destroy(this.gameObject);
+            Destroyed = true;
+            StartCoroutine(AnimateAndDestroy());
         }
+    }
+
+    public IEnumerator AnimateAndDestroy()
+    {
+        float duration = 0.6f;
+        if (Fields.Deleted)
+        {
+            for (float t = 0f; t < duration; t += Time.deltaTime)
+            {
+                // Animate sprite moveing
+                //transform.position = Vector3.Lerp(fromPosition, toPosition, t / duration);
+                // Change sprite opacity
+                backgroundImage.color = new Color(1f, duration - t, duration - t);
+                yield return 0;
+            }
+        }
+        else
+        {
+            for (float t = 0f; t < duration; t += Time.deltaTime)
+            {
+                // Animate sprite moveing
+                //transform.position = Vector3.Lerp(fromPosition, toPosition, t / duration);
+                // Change sprite opacity
+                backgroundImage.color = new Color(duration - t, 1f, duration - t);
+                yield return 0;
+            }
+        }
+        
+        Destroy(this.gameObject);
     }
 
     public void OnPointerClick (PointerEventData pointerEventData)

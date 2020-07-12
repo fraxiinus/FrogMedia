@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameLogicScript : MonoBehaviour
 {
@@ -26,6 +27,9 @@ public class GameLogicScript : MonoBehaviour
     public GameObject GameOverScreen; // Set in unity editor
     public GameObject NextDayPrefab; // Set in unity editor
     public Canvas OverlayDestination; // set in unity editor
+    public GameObject DayCounterGO; // set in unity editor
+    public GameObject RuleList; // set in unity editor
+    public GameObject RuleTextPrefab; // set in unity editor
 
     private bool isPaused = false;
     private TextParser loader;
@@ -33,6 +37,9 @@ public class GameLogicScript : MonoBehaviour
     private MeterHandler userMeter; // internal meter handler object
     private MeterHandler fakeMeter; // internal meter handler object
     private GameObject currentOverlay = null;
+    private Text DayCountText;
+
+    private List<GameObject> currentRules;
 
     // Start is called before the first frame update
     void Start()
@@ -41,12 +48,15 @@ public class GameLogicScript : MonoBehaviour
         loader = gameObject.GetComponent<TextParser>();
         userMeter = UserMeterGO.GetComponent<MeterHandler>();
         fakeMeter = FakeMeterGO.GetComponent<MeterHandler>();
+        DayCountText = DayCounterGO.GetComponent<Text>();
+        currentRules = new List<GameObject>();
 
         // The day starts at 0
         DayIndex = 0;
+        DayCountText.text = (DayIndex + 1).ToString();
 
         //set to the first day values by default: TODO change later
-        postsLeftToday = postsPerDay[0];
+        postsLeftToday = postsPerDay[0]; // do we need this? doesnt seem to do anything
         timeLeftInDay = timePerDay;
         timeSinceLastPost = timesBetweenPosts[DayIndex];
 
@@ -60,7 +70,7 @@ public class GameLogicScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentOverlay != null) return;
+        if (currentOverlay) return; // If we are displaying an overlay, wait until it's gone
         if (isPaused) return;
 
         float timeSinceLastFrame = Time.deltaTime;
@@ -68,9 +78,11 @@ public class GameLogicScript : MonoBehaviour
         timeLeftInDay -= timeSinceLastFrame;
         if(timeLeftInDay <= 0) 
         {
-            DayIndex++;
-            ShowNextDayOverlay();
+            ShowNextDayOverlay(); // this will pause the game
             timeLeftInDay = timePerDay;
+            DayIndex++;
+            DayCountText.text = (DayIndex + 1).ToString();
+            DisplayRule("This is a test rule, delete this line later");
             return; //TODO MOVE TO NEXT DAY
         }
         //Check time left between spawning posts
@@ -97,13 +109,15 @@ public class GameLogicScript : MonoBehaviour
         else if (userHappiness <= 0) // END THE GAME YOU LOST
         {
             ShowGameOver();
+            fakeMeter.SetValueTo(0);
             isPaused = true;
         } 
         else userHappiness += happinessPerSecond * timeSinceLastFrame;
 
-        if (fakeRating == 100 && !isPaused)
+        if (fakeRating >= 100 && !isPaused)
         {
             isPaused = true;
+            fakeMeter.SetValueTo(100);
             ShowGameOver();
         }
 
@@ -123,7 +137,7 @@ public class GameLogicScript : MonoBehaviour
 
     void ShowNextDayOverlay()
     {
-        if (currentOverlay != null) return;
+        if (currentOverlay) return;
         var overlay = Instantiate(NextDayPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         overlay.transform.SetParent(OverlayDestination.transform);
         overlay.transform.localScale = new Vector3(1, 1, 1);
@@ -131,6 +145,7 @@ public class GameLogicScript : MonoBehaviour
         overlay.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
         overlay.GetComponent<RectTransform>().offsetMax = new Vector2(0f, -158f);
         overlay.GetComponent<RectTransform>().offsetMin = new Vector2(0f, 200f);
+        currentOverlay = overlay;
     }
 
     void ScanForPostDeletes(int index)
@@ -190,6 +205,23 @@ public class GameLogicScript : MonoBehaviour
         else 
         {
             return loader.GetRandomPost(category);
+        }
+    }
+
+    void DisplayRule(string ruleText)
+    {
+        var newRule = Instantiate(RuleTextPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        newRule.transform.parent = RuleList.transform;
+        newRule.transform.localScale = new Vector3(1, 1, 1);
+        newRule.GetComponent<Text>().text = ruleText.ToUpper();
+        currentRules.Add(newRule);
+    }
+
+    void ClearRules()
+    {
+        foreach(var rule in currentRules)
+        {
+            Destroy(rule);
         }
     }
 }
