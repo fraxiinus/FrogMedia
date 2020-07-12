@@ -10,6 +10,7 @@ public class PostGenerator : MonoBehaviour
     public GameObject PageContainer;
     
     public GameObject PostPrefab;
+    public GameObject NotifPrefab;
 
     public float PostLifetime; //set in unity
 
@@ -95,6 +96,7 @@ public class PostGenerator : MonoBehaviour
                 Life = PostLifetime,
                 Content = loader.GetRandomPost(1),
             };
+            SpawnNotification(0, NotificationType.NEW);
             SpawnPost(0, post);
         }
         if (Input.GetKeyUp(KeyCode.W))
@@ -108,6 +110,7 @@ public class PostGenerator : MonoBehaviour
                 Life = PostLifetime,
                 Content = loader.GetRandomPost(2),
             };
+            SpawnNotification(1, NotificationType.NEW);
             SpawnPost(1, post);
         }
         if (Input.GetKeyUp(KeyCode.E))
@@ -121,6 +124,7 @@ public class PostGenerator : MonoBehaviour
                 Life = PostLifetime,
                 Content = loader.GetRandomPost(3),
             };
+            SpawnNotification(2, NotificationType.NEW);
             SpawnPost(2, post);
         }
         if (Input.GetKeyUp(KeyCode.R))
@@ -134,6 +138,7 @@ public class PostGenerator : MonoBehaviour
                 Life = PostLifetime,
                 Content = loader.GetRandomPost(4),
             };
+            SpawnNotification(3, NotificationType.NEW);
             SpawnPost(3, post);
         }
     }
@@ -160,4 +165,10 @@ public class PostGenerator : MonoBehaviour
         PostLifetime = time;
     }
 
+    void SpawnNotification(int tabIndex, NotificationType type)
+    {
+        var newNotif = Instantiate(NotifPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        newNotif.GetComponent<NotificationHandler>().Type = type;
+        newNotif.GetComponent<NotificationHandler>().TabIndex = tabIndex;
+    }
 }
