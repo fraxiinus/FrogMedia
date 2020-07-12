@@ -108,7 +108,7 @@ public class GameLogicScript : MonoBehaviour
         if(userHappiness >= 100) userHappiness = 100;
         else if (userHappiness <= 0) // END THE GAME YOU LOST
         {
-            ShowGameOver();
+            ShowGameOver(true);
             fakeMeter.SetValueTo(0);
             isPaused = true;
         } 
@@ -118,7 +118,7 @@ public class GameLogicScript : MonoBehaviour
         {
             isPaused = true;
             fakeMeter.SetValueTo(100);
-            ShowGameOver();
+            ShowGameOver(false);
         }
 
         userMeter.SetValueTo(userHappiness);
@@ -130,8 +130,16 @@ public class GameLogicScript : MonoBehaviour
         ScanForPostDeletes(3);
     }
 
-    void ShowGameOver()
+    void ShowGameOver(bool unhappy)
     {
+        if (unhappy)
+        {
+            GameOverScreen.FindChildObject("Wrapper").FindChildObject("GameOverReason").GetComponent<Text>().text = "THE RIBBITORS ARE UNHAPPY!!! YOU'RE FIRED!";
+        }
+        else
+        {
+            GameOverScreen.FindChildObject("Wrapper").FindChildObject("GameOverReason").GetComponent<Text>().text = "OVERWHELMINGLY F.A.K.E.! DISHONESTY RAMPANT!";
+        }
         GameOverScreen.SetActive(true);
     }
 
