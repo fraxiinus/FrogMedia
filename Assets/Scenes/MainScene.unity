@@ -4817,6 +4817,14 @@ MonoBehaviour:
   RuleList: {fileID: 721590733}
   RuleTextPrefab: {fileID: 8177452577199938467, guid: d8ae5adfe3e74b5419c1cd27cdb2a1bd,
     type: 3}
+  RulesTexts:
+  - 'Watch out for fake posts! Scams, snakes, snake scams, etc. '
+  - 'to spread MISINFORMATION Snakes have been using these hashtags: #Snake #Snakey '
+  - '#Snek #Sneaky'
+  - '#DefinitelyFrog #RealNews ?'
+  - '#Yummy #Nom #Tasty'
+  - '#owo #S #FrogChomp'
+  - '#FrogSsiense'
 --- !u!1 &1785560077
 GameObject:
   m_ObjectHideFlags: 0
