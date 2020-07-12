@@ -25,13 +25,16 @@ public class GameLogicScript : MonoBehaviour
     public GameObject UserMeterGO; // Set in Unity Editor
     public GameObject FakeMeterGO; // Set in unity editor
     public GameObject GameOverScreen; // Set in unity editor
+    public GameObject YouWinScreen; // set in unity editor
     public GameObject NextDayPrefab; // Set in unity editor
     public Canvas OverlayDestination; // set in unity editor
     public GameObject DayCounterGO; // set in unity editor
     public GameObject RuleList; // set in unity editor
     public GameObject RuleTextPrefab; // set in unity editor
     public GameObject RetryButton; // Set in unity editor
+    public GameObject PlayAgainButton; // set in unity editor
     public GameObject TabController; // Set in unity editor
+
 
     [SerializeField]
     private List<string> RulesTexts; //The text for each day that appears on screen. MANUALLY SET IN UNITY EDITOR.
@@ -59,9 +62,10 @@ public class GameLogicScript : MonoBehaviour
         currentRules = new List<GameObject>();
 
         RetryButton.GetComponent<Button>().onClick.AddListener(delegate { RetryButtonPressed(); } );
+        PlayAgainButton.GetComponent<Button>().onClick.AddListener(delegate { RetryButtonPressed(); });
 
         // The day starts at 0
-        DayIndex = 0;
+        DayIndex = 6;
         DayCountText.text = (DayIndex + 1).ToString();
 
         //set to the first day values by default: TODO change later
@@ -99,14 +103,25 @@ public class GameLogicScript : MonoBehaviour
         timeLeftInDay -= timeSinceLastFrame;
         if(timeLeftInDay <= 0) 
         {
-            ShowNextDayOverlay(); // this will pause the game
-            goNextDay();
+            if (DayIndex == 6)
+            {
+                isPaused = true;
+                YouWinScreen.SetActive(true);
+                generator.ClearAllPosts();
+            }
+            else
+            {
+                ShowNextDayOverlay(); // this will pause the game
+                goNextDay();
+            }
+            
             return; //TODO MOVE TO NEXT DAY
         }
         //Check time left between spawning posts
         timeSinceLastPost -= timeSinceLastFrame;
         if( timeSinceLastPost <= 0) 
         {
+
             //Spawn a new post
             int rand = UnityEngine.Random.Range(0, 4);
             var post = new PostParameters() //TODO load an actual post
@@ -210,11 +225,11 @@ public class GameLogicScript : MonoBehaviour
         {
             if (post.Deleted)
             {
-                fakeRating -= post.Content.FAKE * 10;
+                fakeRating -= post.Content.FAKE;
             }
             else
             {
-                fakeRating += post.Content.FAKE * 10;
+                fakeRating += post.Content.FAKE;
             }
         }
         else
@@ -295,6 +310,7 @@ public class GameLogicScript : MonoBehaviour
         timeSinceLastPost = timesBetweenPosts[DayIndex];
         isPaused = false;
         ClearRules();
-        GameOverScreen.SetActive(false);
+        if(GameOverScreen) GameOverScreen.SetActive(false);
+        if(YouWinScreen) YouWinScreen.SetActive(false);
     }
 }
