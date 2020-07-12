@@ -65,7 +65,7 @@ public class GameLogicScript : MonoBehaviour
         PlayAgainButton.GetComponent<Button>().onClick.AddListener(delegate { RetryButtonPressed(); });
 
         // The day starts at 0
-        DayIndex = 6;
+        DayIndex = 0;
         DayCountText.text = (DayIndex + 1).ToString();
 
         //set to the first day values by default: TODO change later
