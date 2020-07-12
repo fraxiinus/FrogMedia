@@ -53,7 +53,7 @@ Luan-Chuan	frog
 Nemi	frog	
 Neba	frog	
 Omei	frog	
-Nikkō	frog	
+Nikko	frog	
 Piri	frog	
 Tio	frog	
 Mat	frog	
