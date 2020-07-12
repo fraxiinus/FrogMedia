@@ -4301,6 +4301,7 @@ MonoBehaviour:
   Posts2: {fileID: 4900000, guid: 43f37bae3bb3c964e94b7592200e2f9b, type: 3}
   Posts3: {fileID: 4900000, guid: 205b2f3e0c71ca242a8ffccfabbe007e, type: 3}
   Posts4: {fileID: 4900000, guid: 4910788cc03c2434bae5b9ac64f797f4, type: 3}
+  FakeTexts: {fileID: 4900000, guid: 6a727f403ba4ed946960527b01abd416, type: 3}
 --- !u!114 &1733970586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4331,6 +4332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afcc7f4221a0b7445910031ae23ca3f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DayIndex: 0
   userHappiness: 0
   fakeRating: 0
   timePerDay: 40
@@ -4352,6 +4354,23 @@ MonoBehaviour:
   - 0.25
   - 0.2
   postsPerDay: 0e00000015000000290000005100000079000000a1000000c9000000
+  fakeChancesPerDay: 09000000130000001d00000027000000310000003b00000045000000
+  minFakePerDay:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  maxFakePerDay:
+  - 1
+  - 3
+  - 5
+  - 7
+  - 9
+  - 11
+  - 13
   UserMeterGO: {fileID: 1664693038}
   FakeMeterGO: {fileID: 117326955}
 --- !u!1 &1785560077

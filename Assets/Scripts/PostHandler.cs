@@ -25,12 +25,12 @@ public class PostHandler : MonoBehaviour, IPointerClickHandler
 
         if (Fields.Life < 0)
         {
-            // if (Fields.Content.FAKE > 0)
-            // {
-            var newNotif = Instantiate(NotifPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            newNotif.GetComponent<NotificationHandler>().Type = NotificationType.FAKE;
-            newNotif.GetComponent<NotificationHandler>().TabIndex = Fields.Content.Category;
-            // }
+            if (Fields.Content.FAKE > 0 && !Fields.Deleted)
+            {
+                var newNotif = Instantiate(NotifPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                newNotif.GetComponent<NotificationHandler>().Type = NotificationType.FAKE;
+                newNotif.GetComponent<NotificationHandler>().TabIndex = Fields.Content.Category;
+            }
 
             Fields.Active = false;
             Destroy(this.gameObject);

@@ -5,19 +5,22 @@ using UnityEngine;
 public class GameLogicScript : MonoBehaviour
 {
     [SerializeField]
+    private int DayIndex;
+    [SerializeField]
     private float userHappiness;
     [SerializeField]
     private float fakeRating;
     private int postsLeftToday;
-    private float timeBetweenPosts;
     private float timeSinceLastPost;
-    private float postLifetime;
     public float timePerDay; //Set in the Unity editor
     private float timeLeftInDay;
     public float happinessPerSecond; //Set in the Unity editor
     public List<float> postLifetimes; //Set in the Unity editor
     public List<float> timesBetweenPosts; //Set in the Unity editor
     public List<int> postsPerDay; //Set in the Unity editor
+    public List<int> fakeChancesPerDay; // set in unity editor
+    public List<float> minFakePerDay; // set in unity editor
+    public List<float> maxFakePerDay; // set in unity editor
     public GameObject UserMeterGO; // Set in Unity Editor
     public GameObject FakeMeterGO; // Set in unity editor
 
@@ -34,13 +37,13 @@ public class GameLogicScript : MonoBehaviour
         userMeter = UserMeterGO.GetComponent<MeterHandler>();
         fakeMeter = FakeMeterGO.GetComponent<MeterHandler>();
 
+        // The day starts at 0
+        DayIndex = 0;
+
         //set to the first day values by default: TODO change later
         postsLeftToday = postsPerDay[0];
-        timeBetweenPosts = timesBetweenPosts[0];
-        postLifetime = postLifetimes[0];
         timeLeftInDay = timePerDay;
-        timeSinceLastPost = timeBetweenPosts;
-
+        timeSinceLastPost = timesBetweenPosts[DayIndex];
 
         userHappiness = 50;
         fakeRating = 50;
@@ -56,6 +59,7 @@ public class GameLogicScript : MonoBehaviour
         //Check time left in Day
         timeLeftInDay -= timeSinceLastFrame;
         if( timeLeftInDay <= 0) {
+            DayIndex++;
             return; //TODO MOVE TO NEXT DAY
         }
         //Check time left between spawning posts
@@ -69,11 +73,11 @@ public class GameLogicScript : MonoBehaviour
                 IsFrog = true,
                 Active = true,
                 Deleted = false,
-                Life = postLifetime,
-                Content = loader.GetRandomPost(rand),
+                Life = postLifetimes[DayIndex],
+                Content = GetPost(rand),
             };
             generator.SpawnPost(rand, post);
-            timeSinceLastPost = timeBetweenPosts;
+            timeSinceLastPost = timesBetweenPosts[DayIndex];
             postsLeftToday--;
         }
 
@@ -82,5 +86,23 @@ public class GameLogicScript : MonoBehaviour
 
         userMeter.SetValueTo(userHappiness);
         fakeMeter.SetValueTo(fakeRating);
+    }
+
+    PostText GetPost(int category)
+    {
+        // This function would need to generate a random post in the future
+        var outOfHundred = Random.Range(0, 100);
+        if (outOfHundred <= fakeChancesPerDay[DayIndex])
+        {
+            // Get a Fake post instead~
+            var fakePost = loader.GetRandomFakePost(minFakePerDay[DayIndex], maxFakePerDay[DayIndex]);
+            // Set the category because thats the only way to knows where it is.
+            fakePost.Category = category;
+            return fakePost;
+        }
+        else 
+        {
+            return loader.GetRandomPost(category);
+        }
     }
 }
