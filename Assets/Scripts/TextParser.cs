@@ -200,8 +200,8 @@ public class TextParser : MonoBehaviour
             Int32.TryParse(parts[1].Trim(), out fakeScore);
             
             //Length check
-            if(parts[0].Length >= 243) {
-                parts[0] = parts[0].Substring(0,240) + "...";
+            if(parts[0].Length >= 233) {
+                parts[0] = parts[0].Substring(0,230) + "...";
             }
 
             // Fake posts have a category of 4, to keep things seperate
