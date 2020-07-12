@@ -30,6 +30,7 @@ public class GameLogicScript : MonoBehaviour
     public GameObject DayCounterGO; // set in unity editor
     public GameObject RuleList; // set in unity editor
     public GameObject RuleTextPrefab; // set in unity editor
+    public GameObject RetryButton; // Set in unity editor
 
     [SerializeField]
     private List<string> RulesTexts; //The text for each day that appears on screen. MANUALLY SET IN UNITY EDITOR.
@@ -55,6 +56,8 @@ public class GameLogicScript : MonoBehaviour
         fakeMeter = FakeMeterGO.GetComponent<MeterHandler>();
         DayCountText = DayCounterGO.GetComponent<Text>();
         currentRules = new List<GameObject>();
+
+        RetryButton.GetComponent<Button>().onClick.AddListener(delegate { RetryButtonPressed(); } );
 
         // The day starts at 0
         DayIndex = 0;
@@ -122,17 +125,18 @@ public class GameLogicScript : MonoBehaviour
         if(userHappiness >= 100) userHappiness = 100;
         else if (userHappiness <= 0) // END THE GAME YOU LOST
         {
-            ShowGameOver();
+            ShowGameOver(true);
             fakeMeter.SetValueTo(0);
             isPaused = true;
         } 
         else userHappiness += happinessPerSecond * timeSinceLastFrame;
 
-        if (fakeRating >= 100 && !isPaused)
+        if (fakeRating <= 0) fakeRating = 0;
+        else if (fakeRating >= 100 && !isPaused)
         {
             isPaused = true;
             fakeMeter.SetValueTo(100);
-            ShowGameOver();
+            ShowGameOver(false);
         }
 
         userMeter.SetValueTo(userHappiness);
@@ -153,6 +157,14 @@ public class GameLogicScript : MonoBehaviour
 
     void ShowGameOver()
     {
+        if (unhappy)
+        {
+            GameOverScreen.FindChildObject("Wrapper").FindChildObject("GameOverReason").GetComponent<Text>().text = "THE RIBBITORS ARE UNHAPPY!!! YOU'RE FIRED!";
+        }
+        else
+        {
+            GameOverScreen.FindChildObject("Wrapper").FindChildObject("GameOverReason").GetComponent<Text>().text = "OVERWHELMINGLY F.A.K.E.! DISHONESTY RAMPANT!";
+        }
         GameOverScreen.SetActive(true);
     }
 
@@ -265,5 +277,20 @@ public class GameLogicScript : MonoBehaviour
         {
             Destroy(rule);
         }
+    }
+
+    public void RetryButtonPressed()
+    {
+        GameOverScreen.SetActive(false);
+        // Reset game
+        userHappiness = 50f;
+        fakeRating = 50f;
+        DayIndex = 0;
+        DayCountText.text = (DayIndex + 1).ToString();
+        postsLeftToday = postsPerDay[0]; // do we need this? doesnt seem to do anything
+        timeLeftInDay = timePerDay;
+        timeSinceLastPost = timesBetweenPosts[DayIndex];
+        isPaused = false;
+        ClearRules();
     }
 }
