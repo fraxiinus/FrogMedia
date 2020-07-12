@@ -4712,6 +4712,7 @@ MonoBehaviour:
   NextDayPrefab: {fileID: 5287143340643891576, guid: 1531a75b904c09d4ba298e18725e572f,
     type: 3}
   OverlayDestination: {fileID: 2077546985}
+  DayCounterGO: {fileID: 2030104549}
 --- !u!1 &1785560077
 GameObject:
   m_ObjectHideFlags: 0

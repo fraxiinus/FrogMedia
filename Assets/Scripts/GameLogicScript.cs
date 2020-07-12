@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameLogicScript : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class GameLogicScript : MonoBehaviour
     public GameObject GameOverScreen; // Set in unity editor
     public GameObject NextDayPrefab; // Set in unity editor
     public Canvas OverlayDestination; // set in unity editor
+    public GameObject DayCounterGO; // set in unity editor
 
     private bool isPaused = false;
     private TextParser loader;
@@ -33,6 +35,7 @@ public class GameLogicScript : MonoBehaviour
     private MeterHandler userMeter; // internal meter handler object
     private MeterHandler fakeMeter; // internal meter handler object
     private GameObject currentOverlay = null;
+    private Text DayCountText;
 
     // Start is called before the first frame update
     void Start()
@@ -41,9 +44,11 @@ public class GameLogicScript : MonoBehaviour
         loader = gameObject.GetComponent<TextParser>();
         userMeter = UserMeterGO.GetComponent<MeterHandler>();
         fakeMeter = FakeMeterGO.GetComponent<MeterHandler>();
+        DayCountText = DayCounterGO.GetComponent<Text>();
 
         // The day starts at 0
         DayIndex = 0;
+        DayCountText.text = (DayIndex + 1).ToString();
 
         //set to the first day values by default: TODO change later
         postsLeftToday = postsPerDay[0];
@@ -60,7 +65,7 @@ public class GameLogicScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentOverlay != null) return;
+        if (currentOverlay) return; // If we are displaying an overlay, wait until it's gone
         if (isPaused) return;
 
         float timeSinceLastFrame = Time.deltaTime;
@@ -68,9 +73,10 @@ public class GameLogicScript : MonoBehaviour
         timeLeftInDay -= timeSinceLastFrame;
         if(timeLeftInDay <= 0) 
         {
-            DayIndex++;
             ShowNextDayOverlay();
             timeLeftInDay = timePerDay;
+            DayIndex++;
+            DayCountText.text = (DayIndex + 1).ToString();
             return; //TODO MOVE TO NEXT DAY
         }
         //Check time left between spawning posts
@@ -101,7 +107,7 @@ public class GameLogicScript : MonoBehaviour
         } 
         else userHappiness += happinessPerSecond * timeSinceLastFrame;
 
-        if (fakeRating == 100 && !isPaused)
+        if (fakeRating >= 100 && !isPaused)
         {
             isPaused = true;
             ShowGameOver();
@@ -123,7 +129,7 @@ public class GameLogicScript : MonoBehaviour
 
     void ShowNextDayOverlay()
     {
-        if (currentOverlay != null) return;
+        if (currentOverlay) return;
         var overlay = Instantiate(NextDayPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         overlay.transform.SetParent(OverlayDestination.transform);
         overlay.transform.localScale = new Vector3(1, 1, 1);
@@ -131,6 +137,7 @@ public class GameLogicScript : MonoBehaviour
         overlay.GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
         overlay.GetComponent<RectTransform>().offsetMax = new Vector2(0f, -158f);
         overlay.GetComponent<RectTransform>().offsetMin = new Vector2(0f, 200f);
+        currentOverlay = overlay;
     }
 
     void ScanForPostDeletes(int index)
