@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 
+using System.Collections.Generic;
+
 //Script tied to the post Prefab, comes along with every new post.
 public class PostHandler : MonoBehaviour, IPointerClickHandler
 {
@@ -13,6 +15,9 @@ public class PostHandler : MonoBehaviour, IPointerClickHandler
     private Text TimerDisplay;
     private Image backgroundImage;
 
+    public List<Sprite> frogImages; //All set in Unity Editor
+    
+
     private bool Destroyed = false;
 
     void Start()
@@ -22,6 +27,9 @@ public class PostHandler : MonoBehaviour, IPointerClickHandler
         gameObject.FindChildObject("Content").GetComponent<Text>().text = Fields.Content.Text;
 
         backgroundImage = gameObject.GetComponent<Image>();
+
+        
+        gameObject.FindChildObject("ProfilePicture").GetComponent<Image>().sprite = frogImages[Random.Range(0,frogImages.Count)];
     }
 
     void Update()

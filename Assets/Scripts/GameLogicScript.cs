@@ -15,6 +15,7 @@ public class GameLogicScript : MonoBehaviour
     private float timeSinceLastPost;
     public float timePerDay; //Set in the Unity editor
     private float timeLeftInDay;
+    public float happinessLostPerDelete; //Set in Unity editor
     public float happinessPerSecond; //Set in the Unity editor
     public List<float> postLifetimes; //Set in the Unity editor
     public List<float> timesBetweenPosts; //Set in the Unity editor
@@ -117,6 +118,7 @@ public class GameLogicScript : MonoBehaviour
                 Life = postLifetimes[DayIndex],
                 Content = GetPost(rand),
             };
+            
             generator.SpawnPost(rand, post);
             timeSinceLastPost = timesBetweenPosts[DayIndex];
             postsLeftToday--;
@@ -155,7 +157,7 @@ public class GameLogicScript : MonoBehaviour
             DisplayRule(RulesTexts[DayIndex]);
     }
 
-    void ShowGameOver()
+    void ShowGameOver(bool unhappy)
     {
         if (unhappy)
         {
@@ -206,7 +208,7 @@ public class GameLogicScript : MonoBehaviour
         {
             if (post.Deleted)
             {
-                fakeRating -= post.Content.FAKE * 10;
+                fakeRating -= (post.Content.FAKE * 10)/2;
             }
             else
             {
@@ -218,7 +220,7 @@ public class GameLogicScript : MonoBehaviour
             // You deleted a post that was not fake, people are mad
             if (post.Deleted)
             {
-                userHappiness -= 20;
+                userHappiness -= happinessLostPerDelete;
             }
         }
     }

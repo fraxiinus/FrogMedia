@@ -253,6 +253,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NotifPrefab: {fileID: 3669658731252029415, guid: c042cc93cd66c0d45ab348db3cf4f717,
     type: 3}
+  frogImages:
+  - {fileID: 21300000, guid: f2dbe5c7f1a2fce42a57b8daa3a0c5a1, type: 3}
+  - {fileID: 21300000, guid: e43d0abda339c6f4baf20de6ff4409ff, type: 3}
+  - {fileID: 21300000, guid: 15400c0397a209d4692d9380f8f83481, type: 3}
+  - {fileID: 21300000, guid: b7b825662f66e5044ba605608022fef4, type: 3}
+  - {fileID: 21300000, guid: d20754b2693d56649ae185e30772c7f9, type: 3}
+  - {fileID: 21300000, guid: bb74d9df9c4bde942a43fe93208b3938, type: 3}
+  - {fileID: 21300000, guid: c0680f798593ae64ea231b5c85da606f, type: 3}
+  - {fileID: 21300000, guid: ac7868c7955b842419e539770f40a483, type: 3}
 --- !u!1 &8429715083836441252
 GameObject:
   m_ObjectHideFlags: 0
