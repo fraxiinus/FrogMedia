@@ -5655,9 +5655,9 @@ MonoBehaviour:
   - 'to spread MISINFORMATION Snakes are using the hashtags: #Snake #Snakey '
   - '#Snek #Sneaky'
   - '#DefinitelyFrog #RealNews'
-  - '#Yummy #Nom #Tasty'
-  - '#owo #S #FrogChomp'
-  - '#FrogSsiense'
+  - '#Yummy #Nom'
+  - '#owo #FrogChomp'
+  - '#FrogSsiense #LOL'
 --- !u!1 &1785560077
 GameObject:
   m_ObjectHideFlags: 0
