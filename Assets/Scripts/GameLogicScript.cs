@@ -51,7 +51,7 @@ public class GameLogicScript : MonoBehaviour
         DayCountText.text = (DayIndex + 1).ToString();
 
         //set to the first day values by default: TODO change later
-        postsLeftToday = postsPerDay[0];
+        postsLeftToday = postsPerDay[0]; // do we need this? doesnt seem to do anything
         timeLeftInDay = timePerDay;
         timeSinceLastPost = timesBetweenPosts[DayIndex];
 
