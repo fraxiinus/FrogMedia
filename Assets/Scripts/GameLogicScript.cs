@@ -18,17 +18,21 @@ public class GameLogicScript : MonoBehaviour
     public List<float> postLifetimes; //Set in the Unity editor
     public List<float> timesBetweenPosts; //Set in the Unity editor
     public List<int> postsPerDay; //Set in the Unity editor
-
+    public GameObject UserMeterGO; // Set in Unity Editor
+    public GameObject FakeMeterGO; // Set in unity editor
 
     private TextParser loader;
     private PostGenerator generator;
+    private MeterHandler userMeter; // internal meter handler object
+    private MeterHandler fakeMeter; // internal meter handler object
 
     // Start is called before the first frame update
     void Start()
     {
         generator = gameObject.GetComponent<PostGenerator>();
         loader = gameObject.GetComponent<TextParser>();
-
+        userMeter = UserMeterGO.GetComponent<MeterHandler>();
+        fakeMeter = FakeMeterGO.GetComponent<MeterHandler>();
 
         //set to the first day values by default: TODO change later
         postsLeftToday = postsPerDay[0];
@@ -40,7 +44,9 @@ public class GameLogicScript : MonoBehaviour
 
         userHappiness = 50;
         fakeRating = 50;
-
+        
+        userMeter.MaxValue = 100;    
+        fakeMeter.MaxValue = 100;
     }
 
     // Update is called once per frame
@@ -56,7 +62,7 @@ public class GameLogicScript : MonoBehaviour
         timeSinceLastPost -= timeSinceLastFrame;
         if( timeSinceLastPost <= 0) {
             //Spawn a new post
-            int rand = UnityEngine.Random.Range(0,4);
+            int rand = UnityEngine.Random.Range(0, 4);
             var post = new PostParameters() //TODO load an actual post
             {
                 Username = loader.GetRandomName(true),
@@ -73,5 +79,8 @@ public class GameLogicScript : MonoBehaviour
 
         if(userHappiness >= 100) userHappiness = 100;
         else userHappiness += happinessPerSecond * timeSinceLastFrame;
+
+        userMeter.SetValueTo(userHappiness);
+        fakeMeter.SetValueTo(fakeRating);
     }
 }

@@ -775,6 +775,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxValue: 100
+  currentValue: 0
+  maxSize: 0
+  currentSize: 0
   MeterForeground: {fileID: 796970166}
   MeterBackground: {fileID: 143523297}
 --- !u!1 &118519233
@@ -4231,6 +4234,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxValue: 100
+  currentValue: 0
+  maxSize: 0
+  currentSize: 0
   MeterForeground: {fileID: 1637972212}
   MeterBackground: {fileID: 424797766}
 --- !u!1 &1733970583
@@ -4325,6 +4331,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afcc7f4221a0b7445910031ae23ca3f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  userHappiness: 0
+  fakeRating: 0
+  timePerDay: 40
   happinessPerSecond: 1.5
   postLifetimes:
   - 6
@@ -4334,8 +4343,8 @@ MonoBehaviour:
   - 4
   - 3.5
   - 3
-  timeBetweenPosts:
-  - 3
+  timesBetweenPosts:
+  - 2.5
   - 2
   - 1
   - 0.5
@@ -4343,6 +4352,8 @@ MonoBehaviour:
   - 0.25
   - 0.2
   postsPerDay: 0e00000015000000290000005100000079000000a1000000c9000000
+  UserMeterGO: {fileID: 1664693038}
+  FakeMeterGO: {fileID: 117326955}
 --- !u!1 &1785560077
 GameObject:
   m_ObjectHideFlags: 0

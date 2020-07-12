@@ -9,7 +9,9 @@ public class MeterHandler : MonoBehaviour
     
     [SerializeField]
     public float currentValue;
+    [SerializeField]
     private float maxSize;
+    [SerializeField]
     private float currentSize;
 
     public GameObject MeterForeground; // set in unity inspector
@@ -20,8 +22,8 @@ public class MeterHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentSize = MeterForeground.GetComponent<RectTransform>().lossyScale.x;
-        maxSize = MeterForeground.GetComponent<RectTransform>().lossyScale.x;
+        currentSize = MeterForeground.GetComponent<RectTransform>().sizeDelta.x;
+        maxSize = MeterBackground.GetComponent<RectTransform>().sizeDelta.x;
         foregroundRect = MeterForeground.GetComponent<RectTransform>();
     }
 
@@ -33,6 +35,17 @@ public class MeterHandler : MonoBehaviour
             var oldSize = foregroundRect.sizeDelta;
             foregroundRect.sizeDelta = new Vector2(currentSize, oldSize.y);
         }
+    }
+
+    public float SetValueTo(float value)
+    {
+        if (value < 0 || value > MaxValue) return currentValue;
+
+        currentValue = value;
+        var ratio = currentValue / MaxValue;
+        currentSize = maxSize * ratio;
+
+        return currentValue;
     }
 
     public float IncreaseValueBy(float delta)

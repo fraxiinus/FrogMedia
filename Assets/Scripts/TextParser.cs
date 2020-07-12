@@ -38,14 +38,15 @@ public class TextParser : MonoBehaviour
         LoadUniqueNames();
         LoadNameParts();
         LoadHashtagRules();
-        LoadPosts(1, Posts1);
-        LoadPosts(2, Posts2);
-        LoadPosts(3, Posts3);
-        LoadPosts(4, Posts4);
+        LoadPosts(0, Posts1);
+        LoadPosts(1, Posts2);
+        LoadPosts(2, Posts3);
+        LoadPosts(3, Posts4);
     }
 
     public PostText GetRandomPost(int category)
     {
+        Debug.Log(category);
         var collection = Posts.Where(x => x.Category == category);
         return collection.ElementAt(UnityEngine.Random.Range(0, collection.Count()));
     }
@@ -165,11 +166,14 @@ public class TextParser : MonoBehaviour
             Int32.TryParse(parts[1].Trim(), out fakeScore);
             
             //Length check
-            if(parts[0].Length >= 251) {
+            if(parts[0].Length >= 243) {
                 parts[0] = parts[0].Substring(0,240) + "...";
             }
 
             Posts.Add(new PostText { Text = parts[0].ToUpper(), FAKE = fakeScore, Category = category } );
+            lineCounter++;
         }
+
+        Debug.Log($"Loaded {lineCounter} lines from category {category}");
     }
 }

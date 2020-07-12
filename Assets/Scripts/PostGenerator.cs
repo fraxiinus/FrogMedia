@@ -33,7 +33,7 @@ public class PostGenerator : MonoBehaviour
             .Select(x => x.gameObject)
             .Where(x => x.name.StartsWith("TabPage"))
             .ToList();
-        
+
         tabContents = new List<List<PostParameters>>();
         tabContents.Add(new List<PostParameters>());
         tabContents.Add(new List<PostParameters>());
@@ -83,65 +83,65 @@ public class PostGenerator : MonoBehaviour
     }
 
     // Delete me
-    void DebugSpawnPost()
-    {
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            var post = new PostParameters
-            {
-                Username = loader.GetRandomName(true),
-                IsFrog = true,
-                Active = true,
-                Deleted = false,
-                Life = PostLifetime,
-                Content = loader.GetRandomPost(1),
-            };
-            SpawnNotification(0, NotificationType.NEW);
-            SpawnPost(0, post);
-        }
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            var post = new PostParameters()
-            {
-                Username = loader.GetRandomName(true),
-                IsFrog = true,
-                Active = true,
-                Deleted = false,
-                Life = PostLifetime,
-                Content = loader.GetRandomPost(2),
-            };
-            SpawnNotification(1, NotificationType.NEW);
-            SpawnPost(1, post);
-        }
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            var post = new PostParameters()
-            {
-                Username = loader.GetRandomName(true),
-                IsFrog = true,
-                Active = true,
-                Deleted = false,
-                Life = PostLifetime,
-                Content = loader.GetRandomPost(3),
-            };
-            SpawnNotification(2, NotificationType.NEW);
-            SpawnPost(2, post);
-        }
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            var post = new PostParameters()
-            {
-                Username = loader.GetRandomName(true),
-                IsFrog = true,
-                Active = true,
-                Deleted = false,
-                Life = PostLifetime,
-                Content = loader.GetRandomPost(4),
-            };
-            SpawnNotification(3, NotificationType.NEW);
-            SpawnPost(3, post);
-        }
-    }
+    // void DebugSpawnPost()
+    // {
+    //     if (Input.GetKeyUp(KeyCode.Q))
+    //     {
+    //         var post = new PostParameters
+    //         {
+    //             Username = loader.GetRandomName(true),
+    //             IsFrog = true,
+    //             Active = true,
+    //             Deleted = false,
+    //             Life = PostLifetime,
+    //             Content = loader.GetRandomPost(1),
+    //         };
+    //         SpawnNotification(0, NotificationType.NEW);
+    //         SpawnPost(0, post);
+    //     }
+    //     if (Input.GetKeyUp(KeyCode.W))
+    //     {
+    //         var post = new PostParameters()
+    //         {
+    //             Username = loader.GetRandomName(true),
+    //             IsFrog = true,
+    //             Active = true,
+    //             Deleted = false,
+    //             Life = PostLifetime,
+    //             Content = loader.GetRandomPost(2),
+    //         };
+    //         SpawnNotification(1, NotificationType.NEW);
+    //         SpawnPost(1, post);
+    //     }
+    //     if (Input.GetKeyUp(KeyCode.E))
+    //     {
+    //         var post = new PostParameters()
+    //         {
+    //             Username = loader.GetRandomName(true),
+    //             IsFrog = true,
+    //             Active = true,
+    //             Deleted = false,
+    //             Life = PostLifetime,
+    //             Content = loader.GetRandomPost(3),
+    //         };
+    //         SpawnNotification(2, NotificationType.NEW);
+    //         SpawnPost(2, post);
+    //     }
+    //     if (Input.GetKeyUp(KeyCode.R))
+    //     {
+    //         var post = new PostParameters()
+    //         {
+    //             Username = loader.GetRandomName(true),
+    //             IsFrog = true,
+    //             Active = true,
+    //             Deleted = false,
+    //             Life = PostLifetime,
+    //             Content = loader.GetRandomPost(4),
+    //         };
+    //         SpawnNotification(3, NotificationType.NEW);
+    //         SpawnPost(3, post);
+    //     }
+    // }
 
     // Returns true if successfully created post in tab.
     // Adds post to tab's contents
@@ -153,15 +153,20 @@ public class PostGenerator : MonoBehaviour
 
         newPost.GetComponent<PostHandler>().Fields = post;
 
+        Debug.Log($"Spawn post index {tabIndex}");
+
         newPost.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 130);
         newPost.transform.SetParent(tabs[tabIndex].FindChildObject("Container").transform);
         newPost.transform.localScale = new Vector3(1, 1, 1);
         
         tabContents[tabIndex].Add(newPost.GetComponent<PostHandler>().Fields);
+
+        SpawnNotification(tabIndex, NotificationType.NEW);
         return true;
     }
 
-    public void updatePostLifetime(float time) {
+    public void updatePostLifetime(float time)
+    {
         PostLifetime = time;
     }
 

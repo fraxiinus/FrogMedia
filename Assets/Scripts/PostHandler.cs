@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 public class PostHandler : MonoBehaviour, IPointerClickHandler
 {
     public PostParameters Fields { get; set; }
+    
+    public GameObject NotifPrefab; // Set in unity inspector
+
     private Text TimerDisplay;
 
     void Start()
@@ -22,6 +25,13 @@ public class PostHandler : MonoBehaviour, IPointerClickHandler
 
         if (Fields.Life < 0)
         {
+            // if (Fields.Content.FAKE > 0)
+            // {
+            var newNotif = Instantiate(NotifPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            newNotif.GetComponent<NotificationHandler>().Type = NotificationType.FAKE;
+            newNotif.GetComponent<NotificationHandler>().TabIndex = Fields.Content.Category;
+            // }
+
             Fields.Active = false;
             Destroy(this.gameObject);
         }
