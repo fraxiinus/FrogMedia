@@ -2794,7 +2794,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 30171732e208fbe418a7edb45b4b413b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 566dd3f5fe39c464ba8b627e6e5a42f4, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
@@ -5612,12 +5612,12 @@ MonoBehaviour:
   - 4
   timesBetweenPosts:
   - 3
-  - 2.6
-  - 2.3
-  - 2
-  - 1.6
-  - 1.3
-  - 1
+  - 2.7
+  - 2.22
+  - 1.48
+  - 0.93
+  - 0.59
+  - 0.5
   postsPerDay: 0e0000000f000000130000001c0000002c0000004500000052000000
   fakeChancesPerDay: 1300000016000000190000001d000000200000002300000027000000
   minFakePerDay:

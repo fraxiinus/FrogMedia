@@ -144,8 +144,8 @@ public class GameLogicScript : MonoBehaviour
         if(userHappiness >= 100) userHappiness = 100;
         else if (userHappiness <= 0) // END THE GAME YOU LOST
         {
+            userMeter.SetValueTo(0);
             ShowGameOver(true);
-            fakeMeter.SetValueTo(0);
             isPaused = true;
         } 
         else userHappiness += happinessPerSecond * timeSinceLastFrame;
